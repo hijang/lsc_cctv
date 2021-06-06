@@ -145,7 +145,7 @@
     <ClCompile Include="..\Common\NetworkTCP.cpp" />
     <ClCompile Include="..\Common\TcpSendRecvJpeg.cpp" />
     <ClCompile Include="..\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp" />
-    <ClCompile Include="CCTV.cpp" />
+    <ClCompile Include="FakeCCTV.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
