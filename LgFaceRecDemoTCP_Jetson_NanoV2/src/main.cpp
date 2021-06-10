@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 				secureMode = 0;
 
 		// [TODO] : think about path to be checked (relative path)
-		if (access(argv[3], F_OK) != 0)
+		if (argc==4 && access(argv[3], F_OK) != 0)
 		{
 				fprintf(stderr,"File is not exist. Check file to play video file(%s) \n", argv[3]);
 				exit(0);
@@ -250,7 +250,7 @@ connection_wait:
 						}
 						else if(keyboard == 'n')
 						{
-
+								printf("Try to add new person \n");
 								auto dTimeStart = chrono::steady_clock::now();
 								videoStreamer->getFrame(frame);
 								// Create a destination to paint the source into.

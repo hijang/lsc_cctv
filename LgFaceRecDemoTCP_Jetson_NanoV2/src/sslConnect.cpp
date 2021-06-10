@@ -173,6 +173,6 @@ int SslConnect::sslWriteFromImageToJpeg(cv::Mat Image)
 			printf("send ssl data error, errno: %d. \n", errorNum);
 		}
 	}
-	printf("Send data(size:%lu) success \n", sendbuff.size());
+	//printf("Send data(size:%lu) success \n", sendbuff.size());
 	return result;
 }
