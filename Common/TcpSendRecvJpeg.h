@@ -13,6 +13,7 @@
 
 int TcpSendImageAsJpeg(TTcpConnectedPort * TcpConnectedPort, cv::Mat Image);
 bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image);
+bool SslRecvImageAsJpeg(SSL* ssl, TTcpConnectedPort* TcpConnectedPort, cv::Mat* Image);
 
 #endif
 //------------------------------------------------------------------------------------------------
