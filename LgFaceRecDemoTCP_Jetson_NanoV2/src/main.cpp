@@ -15,6 +15,7 @@
 #include "TcpSendRecvJpeg.h"
 #include "sslConnect.h"
 #include <termios.h>
+#include <signal.h>
 
 #define CHK_ERR(err, s) if((err) == -1) { perror(s); exit(1); }
 
@@ -31,7 +32,6 @@ int getch()
 {
 		int r;
 		unsigned char c;
-		printf("1231234 \n");
 		if ((r = read(0, &c, sizeof(c))) < 0) {
 				return r;
 		} else {
@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 		struct sockaddr_in cli_addr;
 		socklen_t          clilen;
 		bool               UseCamera=false;
+
+		signal(SIGPIPE, SIG_IGN);
 
 		SslConnect* connection = NULL;
 
@@ -275,7 +277,6 @@ connection_wait:
 
 						}
 				}
-
 
 #ifdef LOG_TIMES
 				std::cout << "mtCNN took " << std::chrono::duration_cast<chrono::milliseconds>(endMTCNN - startMTCNN).count() << "ms\n";

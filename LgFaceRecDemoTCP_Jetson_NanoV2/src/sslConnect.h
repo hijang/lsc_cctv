@@ -25,4 +25,5 @@ public:
 	bool acceptConnection(int sd);
 	int sslWriteFromImageToJpeg(cv::Mat Image);
 };
-#endif SSL_CONNECT_H
+
+#endif // SSL_CONNECT_H

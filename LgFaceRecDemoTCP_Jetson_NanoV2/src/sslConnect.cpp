@@ -26,6 +26,7 @@ SslConnect::~SslConnect()
 		SSL_free(m_ssl);
 	if (m_ctx)
 		SSL_CTX_free(m_ctx);
+	printf("SslConnect is deleted! \n");
 }
 
 int SslConnect::verifyCertification(int preverify, X509_STORE_CTX* ctx)
@@ -172,6 +173,6 @@ int SslConnect::sslWriteFromImageToJpeg(cv::Mat Image)
 			printf("send ssl data error, errno: %d. \n", errorNum);
 		}
 	}
-	printf("Send data(size:%d) success \n", sendbuff.size());
+	printf("Send data(size:%lu) success \n", sendbuff.size());
 	return result;
 }
