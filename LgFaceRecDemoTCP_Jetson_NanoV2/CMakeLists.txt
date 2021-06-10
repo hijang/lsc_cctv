@@ -58,6 +58,8 @@ if(NOT TENSORRT_FOUND)
   message(ERROR
     "Cannot find TensorRT library.")
 endif()
+find_library(LIBSSL NAMES libssl.so HINTS lib/aarch64-linux-gnu REQUIRED)
+find_library(LIBCRYPTO NAMES libcrypto.so HINTS lib/aarch64-linux-gnu REQUIRED)
 
 # l2norm_helper plugin
 add_subdirectory(trt_l2norm_helper)
@@ -76,5 +78,7 @@ cuda_add_executable(${PROJECT_NAME} ${DIR_SRCS})
 target_link_libraries(${PROJECT_NAME}
   trt_l2norm_helper
   ${TENSORRT_LIBRARY}
+  ${LIBSSL}
+  ${LIBCRYPTO}
 )
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS}) 
