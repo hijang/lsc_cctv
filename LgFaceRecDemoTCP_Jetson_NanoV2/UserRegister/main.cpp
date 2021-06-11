@@ -17,12 +17,14 @@ using namespace nvuffparser;
 
 int main(int argc, char *argv[])
 {
-	if (argc < 3)
+	if (argc < 2)
 	{
-		fprintf(stderr, "usage %s [port] [securedmode] [filename]\n", argv[0]);
-		fprintf(stderr, "[securedmode] : non-secure-0/secure mode-1\n");
-		exit(0);
+		fprintf(stderr, "usage %s [filename]\n", argv[0]);
+		return -1;
 	}
+
+	// TODO: input validation
+	const string inputImagePath = argv[1];
 
 	Logger gLogger = Logger();
 	// Register default TRT plugins (e.g. LRelu_TRT)
@@ -38,9 +40,6 @@ int main(int argc, char *argv[])
 	//DataType dtype = DataType::kFLOAT;
 	bool serializeEngine = true;
 	int batchSize = 1;
-	int nbFrames = 0;
-	// int videoFrameWidth =1280;
-	// int videoFrameHeight =720;
 	int videoFrameWidth = 640;
 	int videoFrameHeight = 480;
 
@@ -54,19 +53,17 @@ int main(int argc, char *argv[])
 	// init mtCNN
 	mtcnn mtCNN(videoFrameHeight, videoFrameWidth);
 
-	//init Bbox and allocate memory for "maxFacesPerScene" faces per scene
-	std::vector<struct Bbox> outputBbox;
-	outputBbox.reserve(maxFacesPerScene);
-
 	// get embeddings of known faces
-	struct Paths path;
 	cv::Mat image;
+	loadInputImage(inputImagePath, image, videoFrameWidth, videoFrameHeight);
+	std::vector<struct Bbox> outputBbox = mtCNN.findFace(image);
+
+	if (outputBbox.empty())
+	{
+		std::cout << "invalid picture." << std::endl;
+		return -1;
+	}
 	
-	loadInputImage(path.absPath, image, videoFrameWidth, videoFrameHeight);
-	outputBbox = mtCNN.findFace(image);
-
-	outputBbox.clear();
-
 
 	return 0;
 }
