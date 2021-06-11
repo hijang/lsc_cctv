@@ -19,12 +19,20 @@ int main(int argc, char *argv[])
 {
 	if (argc < 2)
 	{
-		fprintf(stderr, "usage %s [filename]\n", argv[0]);
+		fprintf(stderr, "usage: %s [command] [filename] [name]\n", argv[0]);
+		return -1;
+	}
+
+	const string command = argv[1];
+	if (command != "add" || command != "remove")
+	{
+		cerr << R"(invalid command. use 'add' or 'remove')" << "\n";
 		return -1;
 	}
 
 	// TODO: input validation
-	const string inputImagePath = argv[1];
+	const string inputImagePath = argv[2];
+
 
 	Logger gLogger = Logger();
 	// Register default TRT plugins (e.g. LRelu_TRT)
@@ -63,6 +71,7 @@ int main(int argc, char *argv[])
 		std::cout << "invalid picture." << std::endl;
 		return -1;
 	}
+	
 	
 
 	return 0;
