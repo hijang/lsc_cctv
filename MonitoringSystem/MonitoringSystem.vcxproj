@@ -22,6 +22,10 @@
     <ClCompile Include="..\Common\NetworkTCP.cpp" />
     <ClCompile Include="..\Common\TcpSendRecvJpeg.cpp" />
     <ClCompile Include="MonitoringSystem.cpp" />
+    <ClCompile Include="WindowsKeyStoreAdapter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowsKeyStoreAdapter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -127,7 +131,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;$(OPENSSL_DIR)\lib;C:\Program Files\OpenSSL-Win64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;opencv_world451d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Ncrypt.lib;libcrypto.lib;libssl.lib;opencv_world451d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
