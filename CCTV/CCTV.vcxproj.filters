@@ -27,5 +27,8 @@
     <ClCompile Include="..\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="..\LgFaceRecDemoTCP_Jetson_NanoV2\src\sslConnect.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
 
     //  Initialize SSL context
     ctx = InitCTX();
-    LoadCertificates(ctx, "..\\..\\Certificates\\client.crt", "..\\..\\Certificates\\client.key");
+    LoadCertificates(ctx, "..\\Certificates\\client.crt", "..\\Certificates\\client.key");
     ssl = SSL_new(ctx);
 
     if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open UDP Network port
