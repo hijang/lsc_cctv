@@ -70,5 +70,6 @@ std::vector<std::pair<int64_t, nvinfer1::DataType>>
 calculateBindingBufferSizes(const nvinfer1::ICudaEngine& engine, int nbBindings, int batchSize);
 void getFilePaths(std::string imagesPath, std::vector<struct Paths>& paths);
 void loadInputImage(std::string inputFilePath, cv::Mat& image, int videoFrameWidth, int videoFrameHeight);
+void loadInputImageSecure(std::string inputFilePath, cv::Mat& image, int videoFrameWidth, int videoFrameHeight);
 
 #endif // _TRT_COMMON_H_

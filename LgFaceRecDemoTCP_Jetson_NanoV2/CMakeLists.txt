@@ -4,6 +4,12 @@ project(${PROJECT_NAME})# LANGUAGES CXX CUDA)
 
 set (CMAKE_CXX_STANDARD 11)
 
+# openssl
+find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+message("-- OPENSSL version: ${OPENSSL_VERSION}")
+endif()
+
 # OpenCV
 find_package(OpenCV REQUIRED)
 find_package(CUDA)
@@ -82,3 +88,6 @@ target_link_libraries(${PROJECT_NAME}
   ${LIBCRYPTO}
 )
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS}) 
+
+add_executable(cryptotest ./src/cryptoTest/cryptoTest.cpp ./src/cctvCrypto.cpp)
+target_link_libraries(cryptotest ssl crypto)
