@@ -22,6 +22,10 @@
     <ClCompile Include="..\Common\NetworkTCP.cpp" />
     <ClCompile Include="..\Common\TcpSendRecvJpeg.cpp" />
     <ClCompile Include="MonitoringSystem.cpp" />
+    <ClCompile Include="WindowsKeyStoreAdapter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowsKeyStoreAdapter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
