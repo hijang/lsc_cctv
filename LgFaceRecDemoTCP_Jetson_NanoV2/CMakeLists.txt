@@ -94,6 +94,7 @@ cuda_add_executable(UserRegister
   ./src/rnet_rt.cpp
   ./src/onet_rt.cpp
   ./src/network.cpp
+  ./src/cctvCrypto.cpp
 )
 
 include_directories(

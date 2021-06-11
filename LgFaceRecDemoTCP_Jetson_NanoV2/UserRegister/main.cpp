@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+
 #include <NvInfer.h>
 #include <NvInferPlugin.h>
 #include <l2norm_helper.h>
@@ -8,6 +9,7 @@
 #include <opencv2/cudawarping.hpp>
 #include "faceNet.h"
 #include "mtcnn.h"
+#include "cctvCrypto.h"
 
 #include <termios.h>
 #include <signal.h>
@@ -24,7 +26,7 @@ int main(int argc, char *argv[])
 	}
 
 	const string command = argv[1];
-	if (command != "add" || command != "remove")
+	if (command != "add" && command != "remove")
 	{
 		cerr << R"(invalid command. use 'add' or 'remove')" << "\n";
 		return -1;
@@ -32,6 +34,7 @@ int main(int argc, char *argv[])
 
 	// TODO: input validation
 	const string inputImagePath = argv[2];
+	const string personName = argv[3];
 
 
 	Logger gLogger = Logger();
@@ -44,6 +47,9 @@ int main(int argc, char *argv[])
 	// USER DEFINED VALUES
 	const string uffFile = "../facenetModels/facenet.uff";
 	const string engineFile = "../facenetModels/facenet.engine";
+	const string imageStoragePath = "../imgs/";
+
+
 	DataType dtype = DataType::kHALF;
 	//DataType dtype = DataType::kFLOAT;
 	bool serializeEngine = true;
@@ -72,7 +78,9 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	
-	
+	// TODO: 경로 처리 시 input validation 필요
+	do_crypt_file(inputImagePath.c_str(), (imageStoragePath + personName + ".png").c_str(), 1 /*encrypt*/);
+
 
 	return 0;
 }
