@@ -7,13 +7,20 @@
 //----------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <iostream>
+
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
+#include "WindowsKeyStoreAdapter.h"
+
+
+
 
 using namespace cv;
 using namespace std;
@@ -111,6 +118,8 @@ int VerifyCertificate(SSL_CTX* ctx) {
 }
 
 
+
+
 int main(int argc, char* argv[])
 {
     SSL_CTX* ctx;
@@ -126,10 +135,17 @@ int main(int argc, char* argv[])
 
     //  Initialize SSL context
     ctx = InitCTX();
-    LoadCertificates(ctx, "..\\Certificates\\client.crt", "..\\Certificates\\client.key");
+    if (!loadCertificatesFromWCS(ctx))
+    {
+        // Windows Certificate Store에 key가 없는 경우 
+        //std::cerr << "certification could not be found.\n";
+        //return -1;
+        // FIXME: 개발용으로 아래의 코드를 쓰지만, 테스트 버전에서는 삭제되어야 한다.
+        LoadCertificates(ctx, "..\\Certificates\\client.crt", "..\\Certificates\\client.key");
+    }
     ssl = SSL_new(ctx);
 
-    if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open UDP Network port
+    if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open TCP Network port
     {
         printf("OpenTcpConnection\n");
         return(-1);

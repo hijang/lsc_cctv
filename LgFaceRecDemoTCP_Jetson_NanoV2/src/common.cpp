@@ -3,6 +3,7 @@
 //
 
 #include "common.h"
+#include "cctvCrypto.h"
 
 
 void* safeCudaMalloc(size_t memSize)
@@ -65,5 +66,18 @@ void getFilePaths(std::string imagesPath, std::vector<struct Paths>& paths) {
 
 void loadInputImage(std::string inputFilePath, cv::Mat& image, int videoFrameWidth, int videoFrameHeight) {
     image = cv::imread(inputFilePath.c_str());
+    cv::resize(image, image, cv::Size(videoFrameWidth, videoFrameHeight));
+}
+
+void loadInputImageSecure(std::string inputFilePath, cv::Mat& image, int videoFrameWidth, int videoFrameHeight) {
+    unsigned char buf[1024*1000] = {0,};
+    int img_size = 0;
+
+    if (!do_crypt_buf(inputFilePath.c_str(), buf, &img_size, 0)) {
+      printf("decryption failed\n");
+      exit(1);
+    }
+    std::vector<unsigned char> buffer(buf, buf + img_size);
+    image = cv::imdecode(buffer, 1);
     cv::resize(image, image, cv::Size(videoFrameWidth, videoFrameHeight));
 }
