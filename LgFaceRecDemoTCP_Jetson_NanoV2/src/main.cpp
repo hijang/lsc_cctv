@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
 		getFilePaths("../imgs", paths);
 
 		for(int i=0; i < paths.size(); i++) {
-				loadInputImage(paths[i].absPath, image, videoFrameWidth, videoFrameHeight);
+				loadInputImageSecure(paths[i].absPath, image, videoFrameWidth, videoFrameHeight);
 				outputBbox = mtCNN.findFace(image);
 				std::size_t index = paths[i].fileName.find_last_of(".");
 				std::string rawName = paths[i].fileName.substr(0,index);
