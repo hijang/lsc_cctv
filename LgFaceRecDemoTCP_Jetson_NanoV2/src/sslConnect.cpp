@@ -83,14 +83,14 @@ bool SslConnect::loadCertification()
 {
 	// load CCTV certification
 
-	if (SSL_CTX_use_certificate_file(m_ctx, "../key/server.crt", SSL_FILETYPE_PEM) <= 0) {
+	if (SSL_CTX_use_certificate_file(m_ctx, "../Certificates/server.crt", SSL_FILETYPE_PEM) <= 0) {
 		ERR_print_errors_fp(stderr);
 		return false;
 	}
 
 	// load CCTV private.pem
 
-	if (SSL_CTX_use_PrivateKey_file(m_ctx, "../key/server.key", SSL_FILETYPE_PEM) <= 0) {
+	if (SSL_CTX_use_PrivateKey_file(m_ctx, "../Certificates/server.key", SSL_FILETYPE_PEM) <= 0) {
 		ERR_print_errors_fp(stderr);
 		return false;
 	}
@@ -102,7 +102,7 @@ bool SslConnect::loadCertification()
 
 	// set local rootca cert
 	
-	if(!SSL_CTX_load_verify_locations(m_ctx,"../key/rootca.crt", NULL) || 
+	if(!SSL_CTX_load_verify_locations(m_ctx,"../Certificates/rootca.crt", NULL) || 
            !SSL_CTX_set_default_verify_paths(m_ctx)) {
         	fprintf(stderr, "Can't load CA cert\n");
         	ERR_print_errors_fp(stderr);
