@@ -69,7 +69,7 @@ bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image)
 // jpeg image in side a TCP Stream on the specified TCP local port
 // returns true on success and false on failure
 //-----------------------------------------------------------------
-bool SslRecvImageAsJpeg(SSL* ssl, TTcpConnectedPort* TcpConnectedPort, cv::Mat* Image)
+bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image)
 {
     unsigned int imagesize;
     unsigned char* buff;	/* receive buffer */

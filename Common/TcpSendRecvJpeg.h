@@ -9,11 +9,12 @@
 #define TcpSendRecvJpegH
 
 #include <opencv2/core/core.hpp>
+#include <openssl/ssl.h>
 #include "NetworkTCP.h"
 
 int TcpSendImageAsJpeg(TTcpConnectedPort * TcpConnectedPort, cv::Mat Image);
 bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image);
-bool SslRecvImageAsJpeg(SSL* ssl, TTcpConnectedPort* TcpConnectedPort, cv::Mat* Image);
+bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image);
 
 #endif
 //------------------------------------------------------------------------------------------------

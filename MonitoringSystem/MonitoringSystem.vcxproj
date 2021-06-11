@@ -22,6 +22,11 @@
     <ClCompile Include="..\Common\NetworkTCP.cpp" />
     <ClCompile Include="..\Common\TcpSendRecvJpeg.cpp" />
     <ClCompile Include="MonitoringSystem.cpp" />
+    <ClCompile Include="SslConnect.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MonitoringSystem.h" />
+    <ClInclude Include="SslConnect.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -126,7 +131,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;$(OPENSSL_DIR)\lib;C:\Program Files\OpenSSL-Win64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;$(OPENSSL_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libcrypto.lib;libssl.lib;opencv_world451d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
