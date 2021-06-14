@@ -81,7 +81,7 @@ bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image)
     imagesize = ntohl(imagesize); // convert image size to host format
     if (imagesize < 0) return false;
 
-    printf("Connected~! image size = %u\n", imagesize);
+    // printf("Receiving image size = %u\n", imagesize);
 
     buff = new (std::nothrow) unsigned char[imagesize];
     if (buff == NULL) return false;
@@ -89,10 +89,18 @@ bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image)
 
     int total_size = 0;
     int recvd_size = 0;
+    int empty_count = 0;
     while (recvd_size >= 0 && imagesize > total_size) {
         recvd_size = SSL_read(ssl, buff + total_size, imagesize);
+        if (recvd_size == 0) {
+            if (empty_count == 50) {
+                printf("maybe losing connection...\n");
+                break;
+            }
+            empty_count++;
+        }
         total_size += recvd_size;
-        printf(" received %d / %d\n", recvd_size, total_size);
+        // printf(" received %d / %d\n", recvd_size, total_size);
     }
     printf(" received %d / %d / %u\n", recvd_size, total_size, imagesize);
 

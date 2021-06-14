@@ -15,7 +15,7 @@
 #include "SslConnect.h"
 
 #define SECURE_MODE         (true)
-#define MAX_CONNECT_TRIAL   (10)
+#define MAX_CONNECT_TRIAL   (100)
 
 using namespace cv;
 using namespace std;
@@ -43,14 +43,15 @@ int main(int argc, char* argv[])
     ssl->InitializeCtx();
 #endif
 
-
     do {
+        //  Try until connection established
         do {
             connect_trial++;
             printf("Tring to connect(%d)...\n", connect_trial);
             if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open TCP Network port
             {
                 printf("Error on OpenTcpConnection\n");
+                //  Terminate if it met maximum trial
                 if (connect_trial == MAX_CONNECT_TRIAL)
                 {
                     printf("Unable to connect. Terminate.\n");
@@ -60,15 +61,16 @@ int main(int argc, char* argv[])
                     }
                     return(-1);
                 }
-                Sleep(1000);
+                Sleep(5000);
             }
-        } while (TcpConnectedPort == NULL);
+            do_exit = (waitKey(10) != 'q');
+        } while (TcpConnectedPort == NULL && !do_exit);
         connect_trial = 0;
 
         if (ssl != NULL && !ssl->Connect(TcpConnectedPort->ConnectedFd))
         {
             printf("Failed to Connect on SSL\n");
-            return(-1);
+            break;
         }
 
         namedWindow("Server", WINDOW_AUTOSIZE);// Create a window for display.
@@ -87,10 +89,13 @@ int main(int argc, char* argv[])
             else
             {
                 printf("Invalid image\n");
+                CloseTcpConnectedPort(&TcpConnectedPort); // Close network port;
                 break;
             }
             do_exit = (waitKey(10) != 'q');
         } while (do_exit); // loop until user hits quit
+
+        //  It server has been down, disconnect port
     } while (do_exit);
 
     printf(" Closing... \n");
