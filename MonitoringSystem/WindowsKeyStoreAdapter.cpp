@@ -171,7 +171,6 @@ bool loadCertificatesFromWCS(SSL_CTX* ctx)
     if (hStore == nullptr)
         return false;
 
-    // 4tential host PC 키를 검색하여 처리
     PCCERT_CONTEXT pContext = NULL;
     while (pContext = CertEnumCertificatesInStore(hStore, pContext))
     {

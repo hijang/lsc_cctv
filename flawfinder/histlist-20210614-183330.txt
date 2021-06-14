@@ -1,0 +1,145 @@
+Flawfinder version 2.0.10, (C) 2001-2019 David A. Wheeler.
+Saving hitlist to /home/jckim/work/LgSecureCoding2021/flawfinder/histlist-20210614-183330.hit
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 223
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/accessHistory.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/sslConnect.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/onet_rt.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/network.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/onet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/accessHistory.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/common.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/pBox.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/rnet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/common.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/cryptoTest/cryptoTest.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/sslConnect.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/rnet_rt.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/pnet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/pnet_rt.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/UserRegister/main.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/mtcnn.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/network.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/onet_rt.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/network.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/baseEngine.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/onet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/demo.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/baseEngine.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/common.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/pBox.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/rnet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/common.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/rnet_rt.h
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/pnet_rt.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/mtcnn.cpp
+Examining LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/pnet_rt.h
+Examining Common/SG_InputBox.cpp
+Examining Common/NetworkTCP.cpp
+Examining Common/UdpSendRecvJpeg.h
+Examining Common/SG_InputBox.h
+Examining Common/utils.h
+Examining Common/TcpSendRecvJpeg.cpp
+Examining Common/UdpSendRecvJpeg.cpp
+Examining Common/NetworkUDP.h
+Examining Common/utils.cpp
+Examining Common/KeyboardSetup.cpp
+Examining Common/SG_InputBoxLib.h
+Examining Common/TcpSendRecvJpeg.h
+Examining Common/NetworkTCP.h
+Examining Common/KeyboardSetup.h
+Examining Common/NetworkUDP.cpp
+Examining MonitoringSystem/MonitoringSystem.h
+Examining MonitoringSystem/WindowsKeyStoreAdapter.cpp
+Examining MonitoringSystem/SslConnect.h
+Examining MonitoringSystem/WindowsKeyStoreAdapter.h
+Examining MonitoringSystem/MonitoringSystem.cpp
+Examining MonitoringSystem/SslConnect.cpp
+
+FINAL RESULTS:
+
+Common/SG_InputBox.cpp:51:  [4] (buffer) lstrcpy:Does not check for buffer overflows when copying to destination [MS-banned] (CWE-120).  Consider using a function version that stops copying at the end of the buffer. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:94:  [4] (format) vfprintf:If format strings can be influenced by an attacker, they can be exploited (CWE-134).  Use a constant for the format specification. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:100:  [4] (format) vprintf:If format strings can be influenced by an attacker, they can be exploited (CWE-134).  Use a constant for the format specification. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:84:  [4] (race) access:This usually indicates a security flaw.  If an attacker can change anything along the path between the call to access() and the file's actual use (e.g., by moving files), the attacker can exploit the race condition (CWE-362/CWE-367!).  Set up the correct permissions (e.g., using setuid()) and try to open the file directly. 
+Common/SG_InputBox.h:36:  [2] (buffer) wchar_t:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+Common/SG_InputBox.h:50:  [2] (buffer) wchar_t:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+Common/UdpSendRecvJpeg.cpp:37:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/mtcnn.cpp:113:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/mtcnn.cpp:145:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/pnet_rt.cpp:24:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/pnet_rt.cpp:40:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:92:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:6:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:13:  [2] (misc) fopen:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:19:  [2] (misc) fopen:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:64:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:72:  [2] (misc) fopen:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:95:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/cctvCrypto.cpp:107:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/common.cpp:73:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:93:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:61:  [2] (misc) fopen:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:70:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:81:  [2] (integer) atoi:Unless checked, the resulting number can exceed the expected range (CWE-190).  If source untrusted, check both minimum and maximum, even if the input had no minus sign (large numbers can roll over into negative number; consider saving to an unsigned value if that is intended). 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:179:  [2] (integer) atoi:Unless checked, the resulting number can exceed the expected range (CWE-190).  If source untrusted, check both minimum and maximum, even if the input had no minus sign (large numbers can roll over into negative number; consider saving to an unsigned value if that is intended). 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:208:  [2] (integer) atoi:Unless checked, the resulting number can exceed the expected range (CWE-190).  If source untrusted, check both minimum and maximum, even if the input had no minus sign (large numbers can roll over into negative number; consider saving to an unsigned value if that is intended). 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp:125:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp:157:  [2] (buffer) memcpy:Does not check for buffer overflows when copying to destination (CWE-120).  Make sure destination can always hold the source data. 
+LgFaceRecDemoTCP_Jetson_NanoV2/src/pnet_rt.cpp:24:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/pnet_rt.cpp:41:  [2] (misc) open:Check when opening files - can an attacker redirect it (via symlinks), force the opening of special file type (e.g., device files), move things around to create a race condition, control its ancestors, or change its contents? (CWE-362).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/sslConnect.cpp:53:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+MonitoringSystem/WindowsKeyStoreAdapter.cpp:177:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+MonitoringSystem/WindowsKeyStoreAdapter.cpp:197:  [2] (buffer) char:Statically-sized arrays can be improperly restricted, leading to potential overflows or other issues (CWE-119!/CWE-120).  Perform bounds checking, use functions that limit length, or ensure that the size is larger than the maximum possible length. 
+LgFaceRecDemoTCP_Jetson_NanoV2/MTCNN_FaceDetection_TensorRT/src/common.cpp:36:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:55:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:44:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:74:  [1] (buffer) strncpy:Easily used incorrectly; doesn't always \0-terminate or check for invalid pointers [MS-banned] (CWE-120).  Risk is low because the source is a constant string.
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:75:  [1] (buffer) strncpy:Easily used incorrectly; doesn't always \0-terminate or check for invalid pointers [MS-banned] (CWE-120).  Risk is low because the source is a constant string.
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:76:  [1] (buffer) strncpy:Easily used incorrectly; doesn't always \0-terminate or check for invalid pointers [MS-banned] (CWE-120).  Risk is low because the source is a constant string.
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:77:  [1] (buffer) strncpy:Easily used incorrectly; doesn't always \0-terminate or check for invalid pointers [MS-banned] (CWE-120).  Risk is low because the source is a constant string.
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:81:  [1] (buffer) strlen:Does not handle strings that are not \0-terminated; if given one it may perform an over-read (it could cause a crash if unprotected) (CWE-126).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:81:  [1] (buffer) strlen:Does not handle strings that are not \0-terminated; if given one it may perform an over-read (it could cause a crash if unprotected) (CWE-126).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/logger.cpp:81:  [1] (buffer) strlen:Does not handle strings that are not \0-terminated; if given one it may perform an over-read (it could cause a crash if unprotected) (CWE-126).  
+LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:41:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:27:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:28:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:29:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:30:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:31:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:32:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.h:126:  [1] (buffer) read:Check buffer boundaries if used in a loop including recursive loops (CWE-120, CWE-20).  
+
+ANALYSIS SUMMARY:
+
+Hits = 51
+Lines analyzed = 6678 in approximately 0.10 seconds (63965 lines/second)
+Physical Source Lines of Code (SLOC) = 5058
+Hits@level = [0]  76 [1]  18 [2]  29 [3]   0 [4]   4 [5]   0
+Hits@level+ = [0+] 127 [1+]  51 [2+]  33 [3+]   4 [4+]   4 [5+]   0
+Hits/KSLOC@level+ = [0+] 25.1087 [1+] 10.083 [2+] 6.52432 [3+] 0.790826 [4+] 0.790826 [5+]   0
+Minimum risk level = 1
+Not every hit is necessarily a security vulnerability.
+There may be other security vulnerabilities; review your code!
+See 'Secure Programming HOWTO'
+(https://dwheeler.com/secure-programs) for more information.
+Saving hitlist to /home/jckim/work/LgSecureCoding2021/flawfinder/histlist-20210614-183330.hit
