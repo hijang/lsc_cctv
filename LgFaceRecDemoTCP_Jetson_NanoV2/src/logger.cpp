@@ -20,18 +20,18 @@ string PLogger::getTimestamp()
     ostringstream oss;
     switch (tm_recent->tm_mon)
     {
-    case(0): result = "Jan"; break;
-    case(1): result = "Feb"; break;
-    case(2): result = "Mar"; break;
-    case(3): result = "Apr"; break;
-    case(4): result = "May"; break;
-    case(5): result = "Jun"; break;
-    case(6): result = "Jul"; break;
-    case(7): result = "Aug"; break;
-    case(8): result = "Sep"; break;
-    case(9): result = "Oct"; break;
-    case(10): result = "Nov"; break;
-    case(11): result = "Dec"; break;
+    case(0): oss << "Jan"; break;
+    case(1): oss <<  "Feb"; break;
+    case(2): oss << "Mar"; break;
+    case(3): oss << "Apr"; break;
+    case(4): oss << "May"; break;
+    case(5): oss << "Jun"; break;
+    case(6): oss << "Jul"; break;
+    case(7): oss << "Aug"; break;
+    case(8): oss << "Sep"; break;
+    case(9): oss << "Oct"; break;
+    case(10): oss << "Nov"; break;
+    case(11): oss << "Dec"; break;
     }
     oss.clear();
     oss << "/" << setfill('0') << setw(2) << tm_recent->tm_mday << "/" << tm_recent->tm_year + 1900;
@@ -44,15 +44,12 @@ string PLogger::getTimestamp()
 
 string PLogger::getLogFileName()
 {
-    string result;
-
     time_t rawtime = time(NULL);
     struct tm* date = localtime(&rawtime);
 
     ostringstream oss;
     oss << date->tm_year + 1900 << setfill('0') << setw(2) << date->tm_mon+1 << setfill('0') << setw(2) << date->tm_mday<< ".log" << '\0';
-    result = result + oss.str();
-    return result;
+    return oss.str();
 }
 
 void PLogger::writeLog(int lv, const char* funcName, int line, const char* str, ...)
@@ -78,7 +75,8 @@ void PLogger::writeLog(int lv, const char* funcName, int line, const char* str, 
     }
 
     string timeStamp = getTimestamp();
-    int result_len = strlen(level) + timeStamp.size() + strlen(funcName) + to_string(line).size() + strlen(str) + 10;
+    //printf("level len =%d, timeStamp len = %d, funcName len = %d, line size = %d, str len = %d\n", strlen(level), timeStamp.size(), strlen(funcName), to_string(line).size(), strlen(str));
+    int result_len = strlen(level) + timeStamp.size() + strlen(funcName) + to_string(line).size() + strlen(str)+10;
     result = (char*)malloc(sizeof(char) * result_len);
 
     if (result == NULL)
