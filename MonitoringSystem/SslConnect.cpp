@@ -66,6 +66,8 @@ bool SslConnect::Connect(int fd)
     if (!this->VerifyCertificate()) {
         return false;
     }
+
+    return true;
 }
 
 /*---------------------------------------------------------------------*/
@@ -90,7 +92,7 @@ SSL_CTX* SslConnect::GetSslCtx(void)
 /*---------------------------------------------------------------------*/
 void SslConnect::LoadCertificates(const char* certFile, const char* keyFile)
 {
-    printf("Load certifcates. cert: %d / key: %s\n", certFile, keyFile);
+    printf("Load certifcates. cert: %s / key: %s\n", certFile, keyFile);
     /* set the local certificate from CertFile */
     if (SSL_CTX_use_certificate_file(m_ctx, certFile, SSL_FILETYPE_PEM) <= 0)
     {
