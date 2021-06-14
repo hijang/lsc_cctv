@@ -27,12 +27,18 @@
     <ClCompile Include="SslConnect.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="WindowsKeyStoreAdapter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SslConnect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MonitoringSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowsKeyStoreAdapter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

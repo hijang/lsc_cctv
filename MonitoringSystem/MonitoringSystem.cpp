@@ -7,8 +7,11 @@
 //----------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+
 #include <iostream>
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
@@ -23,6 +26,8 @@ using namespace std;
 // main - This is the main program for the RecvImageUDP demo 
 // program  contains the control loop
 //-----------------------------------------------------------------
+
+
 
 
 int main(int argc, char* argv[])

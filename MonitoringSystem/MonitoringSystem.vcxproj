@@ -23,10 +23,12 @@
     <ClCompile Include="..\Common\TcpSendRecvJpeg.cpp" />
     <ClCompile Include="MonitoringSystem.cpp" />
     <ClCompile Include="SslConnect.cpp" />
+    <ClCompile Include="WindowsKeyStoreAdapter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonitoringSystem.h" />
     <ClInclude Include="SslConnect.h" />
+    <ClInclude Include="WindowsKeyStoreAdapter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
