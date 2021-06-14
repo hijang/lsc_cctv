@@ -12,14 +12,14 @@ int do_crypt_file(const char *src, const char *dest, int mode) {
 
   in = fopen(src, "rb");
   if (in == NULL) {
-    printf("file open error.\n");
-    exit(1);
+    fprintf(stderr, "file open error.\n");
+    return 0;;
   }
 
   out = fopen(dest, "wb");
   if (out == NULL) {
-    printf("file open error.\n");
-    exit(1);
+    fprintf(stderr, "file open error.\n");
+    return 0;;
   }
 
   ctx = EVP_CIPHER_CTX_new();
@@ -71,8 +71,8 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
 
   in = fopen(path, "rb");
   if (in == NULL) {
-    printf("file open error.\n");
-    exit(1);
+    fprintf(stderr, "file open error.\n");
+    return 0;;
   }
 
   ctx = EVP_CIPHER_CTX_new();
@@ -115,4 +115,122 @@ exit:
   fclose(in);
 
   return res;
+}
+
+char* encrypt_filename(const char *filename) {
+  unsigned char outbuf[1024 + EVP_MAX_BLOCK_LENGTH] = {0,};
+  int out_len, fin_len;
+  EVP_CIPHER_CTX *ctx;
+  char *encoded_data = NULL;
+  char *ptr;
+
+  // TODO: Read AES key from outside
+  unsigned char key[] = "0123456789abcdeF";
+  unsigned char iv[] = "1234567887654321";
+
+  // print name
+  printf("filename for encryption = %s\n", filename);
+
+  // encrypt name
+  ctx = EVP_CIPHER_CTX_new();
+  EVP_CIPHER_CTX_init(ctx);
+  EVP_CipherInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv, 1);
+  OPENSSL_assert(EVP_CIPHER_CTX_key_length(ctx) == 16);
+  OPENSSL_assert(EVP_CIPHER_CTX_iv_length(ctx) == 16);
+
+  if (!EVP_CipherUpdate(ctx, outbuf, &out_len, (const unsigned char*)filename, strlen(filename))) {
+    printf("EVP_CipherUpdate error.\n");
+    goto exit;
+  }
+
+  if (!EVP_CipherFinal_ex(ctx, outbuf + out_len, &fin_len)) {
+    printf("EVP_CipherFinal_ex error.\n");
+    goto exit;
+  }
+
+  // base64 encode
+  encoded_data = g_base64_encode((const guchar *)outbuf, out_len + fin_len);
+  printf("base64 encoded data = %s\n", encoded_data);
+
+  ptr = encoded_data;
+  while (*ptr) {
+    if (*ptr == '/') {
+      *ptr = '_';
+    }
+    ptr++;
+  }
+  printf("base64 replaced data = %s\n", encoded_data);
+
+exit:
+  EVP_CIPHER_CTX_free(ctx);
+
+  return encoded_data;
+}
+
+char* decrypt_filename(const char *filename) {
+  unsigned char outbuf[1024 + EVP_MAX_BLOCK_LENGTH] = {0,};
+  int out_len, fin_len;
+  EVP_CIPHER_CTX *ctx;
+  char *buf = NULL;
+  char *decoded_data = NULL;
+  gsize decoded_size = 0;
+  char *ptr, *decrypted_filename;
+
+  // TODO: Read AES key from outside
+  unsigned char key[] = "0123456789abcdeF";
+  unsigned char iv[] = "1234567887654321";
+
+  // print name
+  printf("filename for decryption= %s\n", filename);
+
+  if ((buf = strdup((const char*)filename)) == NULL) {
+    fprintf(stderr, "strdup error.\n");
+    return NULL;
+  } 
+
+  ptr = buf;
+  while (*ptr) {
+    if (*ptr == '_') {
+      *ptr = '/';
+    }
+    ptr++;
+  }
+  printf("base64 replaced data = %s\n", buf);
+
+
+  // base64 decode
+  decoded_data = (gchar *)g_base64_decode((const gchar *)buf, &decoded_size);
+
+  // decrypt name
+  ctx = EVP_CIPHER_CTX_new();
+  EVP_CIPHER_CTX_init(ctx);
+  EVP_CipherInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv, 0);
+  OPENSSL_assert(EVP_CIPHER_CTX_key_length(ctx) == 16);
+  OPENSSL_assert(EVP_CIPHER_CTX_iv_length(ctx) == 16);
+
+  if (!EVP_CipherUpdate(ctx, outbuf, &out_len, (const unsigned char*)decoded_data, decoded_size)) {
+    printf("EVP_CipherUpdate error.\n");
+    goto exit;
+  }
+
+  if (!EVP_CipherFinal_ex(ctx, outbuf + out_len, &fin_len)) {
+    printf("EVP_CipherFinal_ex error.\n");
+    goto exit;
+  }
+
+  if ((decrypted_filename = strndup((const char*)outbuf, out_len + fin_len)) == NULL) {
+    fprintf(stderr, "strdup error.\n");
+    goto exit;
+  }
+
+exit:
+  EVP_CIPHER_CTX_free(ctx);
+  if (buf) {
+    free(buf);
+  }
+  if (decoded_data) {
+    free(decoded_data);
+  }
+
+  return decrypted_filename;
 }

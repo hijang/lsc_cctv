@@ -10,6 +10,12 @@ if(OPENSSL_FOUND)
 message("-- OPENSSL version: ${OPENSSL_VERSION}")
 endif()
 
+# glib
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLIB REQUIRED glib-2.0)
+include_directories(${GLIB_INCLUDE_DIRS})
+lINK_DIRECTORIES(${GLIB_LIBRARY_DIRS})
+
 # OpenCV
 find_package(OpenCV REQUIRED)
 find_package(CUDA)
@@ -123,10 +129,11 @@ target_link_libraries(UserRegister
   ${TENSORRT_LIBRARY}
   ${LIBCRYPTO}
   ${OpenCV_LIBS}
+  ${GLIB_LIBRARIES}
   stdc++fs
 )
 
-target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS}) 
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${GLIB_LIBRARIES})
 
 add_executable(cryptotest ./src/cryptoTest/cryptoTest.cpp ./src/cctvCrypto.cpp)
-target_link_libraries(cryptotest ssl crypto)
+target_link_libraries(cryptotest ssl crypto ${GLIB_LIBRARIES})
