@@ -68,8 +68,7 @@ int main(int argc, char* argv[])
                 }
                 Sleep(5000);
             }
-            do_exit = (waitKey(10) != 'q');
-        } while (TcpConnectedPort == NULL && !do_exit);
+        } while (TcpConnectedPort == NULL);
         connect_trial = 0;
 
         if (ssl != NULL && !ssl->Connect(TcpConnectedPort->ConnectedFd))
