@@ -23,8 +23,12 @@ namespace fs = std::experimental::filesystem;
 
 const string makeEncoded(const string& str)
 {
-	// TODO: encoding name
-	return str;
+        char* enc_str = encrypt_filename(str.c_str());
+	string encrypted_str(enc_str);
+	if (enc_str) {
+	  free(enc_str);
+	}
+	return encrypted_str;
 }
 
 const string sanitize(const string& name)

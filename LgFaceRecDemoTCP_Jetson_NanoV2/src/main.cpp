@@ -15,6 +15,7 @@
 #include "TcpSendRecvJpeg.h"
 #include "sslConnect.h"
 #include "logger.h"
+#include "cctvCrypto.h"
 #include <termios.h>
 #include <signal.h>
 
@@ -151,12 +152,14 @@ int main(int argc, char *argv[])
     getFilePaths("../imgs", paths);
 
     for(int i=0; i < paths.size(); i++) {
-        loadInputImage(paths[i].absPath, image, videoFrameWidth, videoFrameHeight);
+        char* rawName = NULL;
+        loadInputImageSecure(paths[i].absPath, image, videoFrameWidth, videoFrameHeight);
         outputBbox = mtCNN.findFace(image);
-        std::size_t index = paths[i].fileName.find_last_of(".");
-        std::string rawName = paths[i].fileName.substr(0,index);
+        printf("%s\n", paths[i].fileName.c_str());
+        rawName = decrypt_filename(paths[i].fileName.c_str());
         faceNet.forwardAddFace(image, outputBbox, rawName);
         faceNet.resetVariables();
+        free(rawName);
     }
     outputBbox.clear();
 
