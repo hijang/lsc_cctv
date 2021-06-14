@@ -1,4 +1,5 @@
 #include "faceNet.h"
+#include "accessHistory.h"
 
 int FaceNetClassifier::m_classCount = 0;
 
@@ -231,7 +232,7 @@ void FaceNetClassifier::featureMatching(cv::Mat &image) {
            //         cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4,  cv::Scalar(0,0,255,255), 1);
            cv::putText(image, m_knownFaces[winner].className, cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
                     cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4,  cv::Scalar(0,0,255,255), 1);
-
+           record.insertToMySet(m_knownFaces[winner].className.c_str());
         }
         else if (minDistance > m_knownPersonThresh || winner == -1){
             //cv::putText(image, "New Person", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
@@ -241,6 +242,7 @@ void FaceNetClassifier::featureMatching(cv::Mat &image) {
 
         }
     }
+    record.printLog(m_croppedFaces.size());
 }
 
 void FaceNetClassifier::addNewFace(cv::Mat &image, std::vector<struct Bbox> outputBbox) {
