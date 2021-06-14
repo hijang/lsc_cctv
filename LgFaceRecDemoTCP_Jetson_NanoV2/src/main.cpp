@@ -15,13 +15,14 @@
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
 #include "sslConnect.h"
+#include "logger.h"
 #include <termios.h>
 #include <signal.h>
 
 #define CHK_ERR(err, s) if((err) == -1) { perror(s); exit(1); }
 
 void signalHandler( int signum ) {
-    printf("CCTV system will be shut-down now \n");
+    logg.fatal("CCTV system will be shut-down now!\n");
     ResourceManager* resourceManager = ResourceManager::getInstance();
     resourceManager->destroyResource();
     exit(signum);
@@ -115,16 +116,18 @@ int main(int argc, char *argv[])
     {
         connection = new SslConnect;
         if (connection == NULL) {
-            printf("Fail to create SslConnect \n");
+            logg.fatal("Fail to create SslConnect.\n");
+            fprintf(stderr, "Fail to start service [Internal Error : Fail to create SslConnect.]\n");
             return(-1);
         }
         resourceManager->m_sslconnect = connection;
         if (!connection->loadCertification()) {
-            printf("Load server certification is faled \n");
+            logg.fatal("Loading server certification and private key is fail\n");
+            fprintf(stderr, "Fail to start service [Internal Error : Load server cert/key is failed.\n");
             delete connection;
             return(-1);
         } else {
-            printf("Load server certification is success \n");
+            logg.trace("Loading server certification and private key is success.\n");
         }
     }
 
@@ -167,6 +170,11 @@ connection_wait:
     int err;
     int listen_sd;
 
+    cv::cuda::GpuMat src_gpu, dst_gpu;
+    cv::Mat dst_img;
+    // loop over frames with inference
+    auto globalTimeStart = chrono::steady_clock::now();
+
     listen_sd = socket(AF_INET, SOCK_STREAM, 0);
     CHK_ERR(listen_sd, "socket");
 
@@ -181,7 +189,7 @@ connection_wait:
     err = listen(listen_sd, 5);
     CHK_ERR(err, "listen failed\n");
 
-    printf("Waiting for connection from client \n");
+    fprintf(stdout, "Waiting for connection from client.\n");
 
     client_len = sizeof(sa_cli);
     sd = accept(listen_sd, (struct sockaddr*)&sa_cli, &client_len);
@@ -189,30 +197,28 @@ connection_wait:
     CHK_ERR(sd, "accept");
     close(listen_sd);
 
-    printf("Connection from %1x, port %x\n", sa_cli.sin_addr.s_addr, sa_cli.sin_port);
+    logg.trace("Monitoring system is connected from %1x, port %x\n", sa_cli.sin_addr.s_addr, sa_cli.sin_port);
 
     if (secureMode)
     {
         if (!connection->acceptConnection(sd)) {
-            printf("verify certification is failed \n");
-            exit(-1);
+            logg.fatal("Fail to verify client for ssl connection.\n");
+            fprintf(stderr, "Fail to verify client.\n");
+            goto cleanup_and_wait;
         } else {
-            printf("client is connected and verified \n");
+            logg.trace("client is connected and verified.\n");
         }
     }
     else
     {
-        if  ((TcpListenPort=OpenTcpListenPort(atoi(argv[1])))==NULL)  // Open TCP Network port
+        if  ((TcpListenPort=OpenTcpListenPort(atoi(argv[1])))==NULL)
         {
-            printf("OpenTcpListenPortFailed\n");
-            return(-1);
+            fprintf(stderr, "OpenTcpListenPortFailed.\n");
+            goto cleanup_and_wait;
         }
     }
 
-    cv::cuda::GpuMat src_gpu, dst_gpu;
-    cv::Mat dst_img;
-    // loop over frames with inference
-    auto globalTimeStart = chrono::steady_clock::now();
+    fprintf(stdout, "Now streaming is started.\n");
 
     while (true) {
         videoStreamer->getFrame(frame);
@@ -301,13 +307,14 @@ connection_wait:
 #endif  // LOG_TIMES
     }
 cleanup_and_wait:
-    close(sd);
-    printf("Shut down connection. Waiting new connection");
+    if (sd) {
+        close(sd);
+        sd=0;
+    }
+    logg.trace("Connection is closed.\n");
     goto connection_wait;
 finalize:
     auto globalTimeEnd = chrono::steady_clock::now();
-
-    printf("here - finalize \n");
 
     videoStreamer->release();
 
