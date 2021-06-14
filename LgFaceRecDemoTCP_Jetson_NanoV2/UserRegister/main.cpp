@@ -2,6 +2,8 @@
 #include <string>
 #include <chrono>
 
+#include <experimental/filesystem>
+
 #include <NvInfer.h>
 #include <NvInferPlugin.h>
 #include <l2norm_helper.h>
@@ -17,37 +19,44 @@
 using namespace nvinfer1;
 using namespace nvuffparser;
 
-int main(int argc, char *argv[])
+namespace fs = std::experimental::filesystem;
+
+const string makeEncoded(const string& str)
 {
-	if (argc < 2)
-	{
-		fprintf(stderr, "usage: %s [command] [filename] [name]\n", argv[0]);
-		return -1;
-	}
+	// TODO: encoding name
+	return str;
+}
 
-	const string command = argv[1];
-	if (command != "add" && command != "remove")
-	{
-		cerr << R"(invalid command. use 'add' or 'remove')" << "\n";
-		return -1;
-	}
-
-	// TODO: input validation
-	const string inputImagePath = argv[2];
-	const string personName = argv[3];
+const string sanitize(const string& name)
+{
+	string filtered;
+	std::copy_if(begin(name), end(name), std::back_inserter(filtered), [](string::value_type c){return c != '/';} );
+	
+	return filtered;
+}
 
 
+fs::path makePersonImagePath(const string name)
+{
+	const fs::path imageStoragePath = fs::canonical("../imgs/"); // FIXME: 하드 코딩
+	std::cout << "imageStorePath: " << imageStoragePath.c_str() << std::endl;
+	fs::path imagePath = imageStoragePath / makeEncoded(name);
+
+	return imagePath;
+}
+
+bool addAuthorized(const string inputImagePath, const string personName)
+{
 	Logger gLogger = Logger();
 	// Register default TRT plugins (e.g. LRelu_TRT)
 	if (!initLibNvInferPlugins(&gLogger, ""))
 	{
-		return 1;
+		return false;
 	}
 
 	// USER DEFINED VALUES
 	const string uffFile = "../facenetModels/facenet.uff";
 	const string engineFile = "../facenetModels/facenet.engine";
-	const string imageStoragePath = "../imgs/";
 
 
 	DataType dtype = DataType::kHALF;
@@ -75,12 +84,63 @@ int main(int argc, char *argv[])
 	if (outputBbox.empty())
 	{
 		std::cout << "invalid picture." << std::endl;
-		return -1;
+		return false;
 	}
 	
 	// TODO: 경로 처리 시 input validation 필요
-	do_crypt_file(inputImagePath.c_str(), (imageStoragePath + personName + ".png").c_str(), 1 /*encrypt*/);
+	do_crypt_file(inputImagePath.c_str(), makePersonImagePath(personName).c_str(), 1 /*encrypt*/);
 
+	return true;
+}
+
+
+
+
+bool removeAuthorized(const string name)
+{
+	fs::path imagePath = makePersonImagePath(name);
+	std::cout << "imagePath: " << imagePath.c_str() << std::endl;
+	return fs::remove(imagePath);
+}
+
+
+int test_main()
+{
+	std::cout << sanitize("/etc/before") << std::endl;
+
+	std::cout << makePersonImagePath("jeff") << std::endl;
+	return 0;
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc < 2)
+	{
+		fprintf(stderr, "usage: %s [command] ([filename] [name]) | [name] \n", argv[0]);
+		return -1;
+	}
+
+	const string command = argv[1];
+	// TODO: input validation
+	if (command == "add" && argc == 4)
+	{
+		bool result = addAuthorized(argv[2], argv[3]);
+		if (!result)
+			std::cerr << "failed to add authorized person. " << argv[2] << " " << argv[3] << std::endl;
+	}
+	else if (command == "remove" && argc == 3)
+	{
+		bool result = removeAuthorized(argv[2]);
+		if (!result)
+			std::cerr << "failed to remove authorized person. " << argv[2] << std::endl;
+	}
+	else 
+	{
+		cerr << R"(invalid command. use 'add' or 'remove')" << "\n";
+		return -1;
+	}
+
+	
 
 	return 0;
 }

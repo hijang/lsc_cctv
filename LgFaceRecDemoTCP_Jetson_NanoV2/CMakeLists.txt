@@ -117,6 +117,7 @@ target_link_libraries(UserRegister
   ${TENSORRT_LIBRARY}
   ${LIBCRYPTO}
   ${OpenCV_LIBS}
+  stdc++fs
 )
 
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS}) 
