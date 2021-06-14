@@ -81,12 +81,45 @@ AUX_SOURCE_DIRECTORY(./src DIR_SRCS)
 message("DIR_SRCS = ${DIR_SRCS}")
 cuda_add_executable(${PROJECT_NAME} ${DIR_SRCS})
 
+
+# AUX_SOURCE_DIRECTORY(./UserRegister DIR_USERREGISTER)
+# message("DIR_USERREGISTER = ${DIR_USERREGISTER}")
+cuda_add_executable(UserRegister 
+  ./UserRegister/main.cpp
+  ./src/faceNet.cpp
+  ./src/mtcnn.cpp
+  ./src/pnet_rt.cpp
+  ./src/common.cpp
+  ./src/baseEngine.cpp
+  ./src/rnet_rt.cpp
+  ./src/onet_rt.cpp
+  ./src/network.cpp
+  ./src/cctvCrypto.cpp
+)
+
+include_directories(
+  UserRegister
+  ./src
+  ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
+  ${TENSORRT_INCLUDE_DIR}
+  
+)
+
 target_link_libraries(${PROJECT_NAME}
   trt_l2norm_helper
   ${TENSORRT_LIBRARY}
   ${LIBSSL}
   ${LIBCRYPTO}
 )
+
+target_link_libraries(UserRegister
+  trt_l2norm_helper
+  ${TENSORRT_LIBRARY}
+  ${LIBCRYPTO}
+  ${OpenCV_LIBS}
+  stdc++fs
+)
+
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS}) 
 
 add_executable(cryptotest ./src/cryptoTest/cryptoTest.cpp ./src/cctvCrypto.cpp)
