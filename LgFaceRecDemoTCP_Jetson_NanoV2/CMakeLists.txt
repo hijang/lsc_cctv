@@ -90,6 +90,8 @@ cuda_add_executable(${PROJECT_NAME} ${DIR_SRCS})
 # message("DIR_USERREGISTER = ${DIR_USERREGISTER}")
 cuda_add_executable(UserRegister 
   ./UserRegister/main.cpp
+  ./src/accessHistory.cpp
+  ./src/logger.cpp
   ./src/faceNet.cpp
   ./src/mtcnn.cpp
   ./src/pnet_rt.cpp

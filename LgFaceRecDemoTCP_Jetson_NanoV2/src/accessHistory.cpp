@@ -85,15 +85,15 @@ void accessHistory::printLog(int cropsize)
         }
     }
 
-    for (auto it = m_oldmap.begin(); it != m_oldmap.end(); it++) //clean history map
+    for (auto it = m_oldmap.begin(); it != m_oldmap.end(); ) //clean history map
     {
         if (0 == it->second)
         {
-            m_oldmap.erase(it->first);
+            it = m_oldmap.erase(it);
         }
         else
         {
-            continue;
+            it++;
         }
     }
     m_myset.clear();
