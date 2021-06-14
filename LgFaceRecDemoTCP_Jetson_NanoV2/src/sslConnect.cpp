@@ -58,7 +58,6 @@ int SslConnect::verifyCertification(int preverify, X509_STORE_CTX* ctx)
     err = X509_STORE_CTX_get_error(ctx);
     depth = X509_STORE_CTX_get_error_depth(ctx);
 
-    ssl = (SSL *)X509_STORE_CTX_get_ex_data(ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
     X509_NAME_oneline(X509_get_subject_name(cert), buf, 256);
 
     if (depth >= 2) {

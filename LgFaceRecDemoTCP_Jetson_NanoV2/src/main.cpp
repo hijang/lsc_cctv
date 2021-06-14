@@ -84,7 +84,6 @@ int main(int argc, char *argv[])
     if (atoi(argv[2]) == 0)
         secureMode = 0;
 
-    // [TODO] : think about path to be checked (relative path)
     if (argc==4 && access(argv[3], F_OK) != 0)
     {
         fprintf(stderr,"File is not exist. Check file to play video file(%s) \n", argv[3]);
@@ -111,6 +110,23 @@ int main(int argc, char *argv[])
     int maxFacesPerScene = 8;
     float knownPersonThreshold = 1.;
     bool isCSICam = true;
+
+    if (secureMode)
+    {
+        connection = new SslConnect;
+        if (connection == NULL) {
+            printf("Fail to create SslConnect \n");
+            return(-1);
+        }
+        resourceManager->m_sslconnect = connection;
+        if (!connection->loadCertification()) {
+            printf("Load server certification is faled \n");
+            delete connection;
+            return(-1);
+        } else {
+            printf("Load server certification is success \n");
+        }
+    }
 
     // init facenet
     FaceNetClassifier faceNet = FaceNetClassifier(gLogger, dtype, uffFile, engineFile, batchSize, serializeEngine,
@@ -145,22 +161,6 @@ int main(int argc, char *argv[])
         faceNet.resetVariables();
     }
     outputBbox.clear();
-
-    if (secureMode)
-    {
-        connection = new SslConnect;
-        if (connection == NULL) {
-            printf("Fail to create SslConnect \n");
-            return(-1);
-        }
-        resourceManager->m_sslconnect = connection;
-        if (!connection->loadCertification()) {
-            printf("Load server certification is faled \n");
-            return(-1);
-        } else {
-            printf("Load server certification is success \n");
-        }
-    }
 
 connection_wait:
 
