@@ -13,17 +13,17 @@ static const SSL_METHOD* ssl_method = SSLv23_server_method();
 
 class SslConnect {
 private:
-	SSL* m_ssl;
-	SSL_CTX* m_ctx;
-	int listen_sd;
+    SSL* m_ssl;
+    SSL_CTX* m_ctx;
+    int listen_sd;
 public:
-	SslConnect();
-	~SslConnect();
+    SslConnect();
+    ~SslConnect();
 
-	bool loadCertification();
-	static int verifyCertification(int preverify, X509_STORE_CTX* ctx);
-	bool acceptConnection(int sd);
-	int sslWriteFromImageToJpeg(cv::Mat Image);
+    bool loadCertification();
+    static int verifyCertification(int preverify, X509_STORE_CTX* ctx);
+    bool acceptConnection(int sd);
+    int sslWriteFromImageToJpeg(cv::Mat Image);
 };
 
 #endif // SSL_CONNECT_H

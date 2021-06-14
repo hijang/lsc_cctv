@@ -34,7 +34,11 @@ if(CUDA_VERSION_MAJOR GREATER 9)
 
 endif()
 
-set(CMAKE_CXX_FLAGS  "-Wno-deprecated-declarations")
+if(USE_ADDRESS_SANITIZER)
+    set(CMAKE_CXX_FLAGS  "-Wno-deprecated-declarations -fno-omit-frame-pointer -fsanitize=address")
+else()
+    set(CMAKE_CXX_FLAGS  "-Wno-deprecated-declarations")
+endif()
 
 # tensorRT
 message("CUDA_TOOLKIT_ROOT_DIR = ${CUDA_TOOLKIT_ROOT_DIR}")
