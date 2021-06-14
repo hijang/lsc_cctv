@@ -11,7 +11,6 @@
 #include "network.h"
 #include "mtcnn.h"
 
-#include "resourceManager.h"
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
 #include "sslConnect.h"
@@ -23,8 +22,6 @@
 
 void signalHandler( int signum ) {
     logg.fatal("CCTV system will be shut-down now!\n");
-    ResourceManager* resourceManager = ResourceManager::getInstance();
-    resourceManager->destroyResource();
     exit(signum);
 }
 
@@ -71,7 +68,6 @@ int main(int argc, char *argv[])
     signal(SIGPIPE, SIG_IGN);
     signal(SIGINT, signalHandler);
 
-    ResourceManager* resourceManager = ResourceManager::getInstance();
     SslConnect* connection = NULL;
 
     if (argc <3)
@@ -120,7 +116,6 @@ int main(int argc, char *argv[])
             fprintf(stderr, "Fail to start service [Internal Error : Fail to create SslConnect.]\n");
             return(-1);
         }
-        resourceManager->m_sslconnect = connection;
         if (!connection->loadCertification()) {
             logg.fatal("Loading server certification and private key is fail\n");
             fprintf(stderr, "Fail to start service [Internal Error : Load server cert/key is failed.\n");
@@ -193,7 +188,6 @@ connection_wait:
 
     client_len = sizeof(sa_cli);
     sd = accept(listen_sd, (struct sockaddr*)&sa_cli, &client_len);
-    resourceManager->sd = sd;
     CHK_ERR(sd, "accept");
     close(listen_sd);
 
