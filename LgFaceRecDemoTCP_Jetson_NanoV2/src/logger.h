@@ -1,0 +1,35 @@
+#pragma once
+#ifndef __PLogger_H__
+#define __PLogger_H__ 1
+#include <iomanip>
+#include <iostream>
+#include <fstream>
+#include <cstdarg>
+#include <ctime>
+#include <sstream>
+#include <cstring>
+#include <cstdio>
+#define LOG_LEVEL_OFF 0
+#define LOG_LEVEL_FATAL 10
+#define LOG_LEVEL_ERROR 20
+#define LOG_LEVEL_INFO 40
+#define LOG_LEVEL_TRACE 60
+#define LOG_LEVEL_ALL 100
+#define __LOG_FILE__ "log.txt"
+#define fatal(str, ...) writeLog(LOG_LEVEL_FATAL,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define error(str, ...) writeLog(LOG_LEVEL_ERROR,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define info(str, ...) writeLog(LOG_LEVEL_INFO,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define trace(str, ...) writeLog(LOG_LEVEL_TRACE,__FUNCTION__, __LINE__, str,##__VA_ARGS__)
+using namespace std;
+class PLogger {
+private:
+    int logLevel;
+    string getTimestamp();
+    string getLogFileName();
+public:
+    PLogger();
+    PLogger(int level);
+    void writeLog(int level, const char* funcName, int line, const char* str, ...);
+};
+static PLogger logg;
+#endif
