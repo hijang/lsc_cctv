@@ -1,2 +1,8 @@
 Debug
 .vs
+sonar-project.properties
+.sonar/
+codexray_result.json
+xray-scanner.inclusions
+.codexray_cpp.xml
+.codexray_work/
