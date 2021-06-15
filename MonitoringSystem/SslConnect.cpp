@@ -122,10 +122,6 @@ bool SslConnect::VerifyCertificate() {
         printf("error creating store...\n");
 
     X509_STORE_CTX* vrfy_ctx = X509_STORE_CTX_new();
-
-    BIO* cert_bio = NULL;
-    BIO* out_bio = NULL;
-
     int ret = X509_STORE_load_locations(store, PATH_ROOTCA_FILE, NULL);
     if (ret != 1) {
         printf("Error loading CA\n");
@@ -134,8 +130,12 @@ bool SslConnect::VerifyCertificate() {
 
     X509_STORE_CTX_init(vrfy_ctx, store, server_cert, NULL);
 
+    bool verified = (X509_verify_cert(vrfy_ctx) > 0);
+    X509_STORE_CTX_free(vrfy_ctx);
+    X509_STORE_free(store);
     X509_free(server_cert);
-    return (X509_verify_cert(vrfy_ctx) > 0);
+
+    return verified;
 }
 
 SSL* SslConnect::GetSSL() {
