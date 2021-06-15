@@ -20,7 +20,7 @@ void accessHistory::printLog(int cropsize)
 
     if (cropFaceSize > knownFaceSize)
     {
-        logg.fatal("there is (%d) new person \n", cropFaceSize - knownFaceSize);
+        logg.fatal("there is (%d) unauthorized person \n", cropFaceSize - knownFaceSize);
     }
 
     if (knownFaceSize > 0)
