@@ -28,7 +28,6 @@
 
 ## Client key
 ### Make private key for client - RSA 2048키 생성 및 개인키를 AES256으로 암호화
-> openssl genrsa -aes256 -passout pass:jeff -out client.pem 2048
 ```
 $ openssl genrsa -des3 -passout pass:jeff -out client.key 2048
 Generating RSA private key, 2048 bit long modulus (2 primes)
