@@ -11,7 +11,6 @@ private:
 
 	SSL_CTX* GetSslCtx(void);
 	void LoadCertificates(const char* CertFile, const char* KeyFile);
-	bool CheckPeerCertificate();
 	bool VerifyCertificate();
 
 public:

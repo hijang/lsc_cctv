@@ -7,21 +7,8 @@
 
 static const char* PATH_CERT_FILE = "..\\..\\Certificates\\client.crt";
 static const char* PATH_PRIVATE_KEY_FILE = "..\\..\\Certificates\\client.key";
+static const char* PATH_ROOTCA_FILE = "..\\..\\Certificates\\rootca.crt";
 
-static const char* root_ca = "-----BEGIN CERTIFICATE-----\n"
-        "MIICODCCAd8CFGnngwBSCkZRYpt92Eo8R4SyB1h8MAoGCCqGSM49BAMCMIGdMQsw\n"
-        "CQYDVQQGEwJLUjEOMAwGA1UECAwFU2VvdWwxEDAOBgNVBAcMB0dhbmduYW0xDDAK\n"
-        "BgNVBAoMA0xHRTEWMBQGA1UECwwNU2VjU3BlY2lhbGlzdDElMCMGA1UEAwwcNHRl\n"
-        "bnRpYWwgQ0EgUm9vdCBDZXJ0aWZpY2F0ZTEfMB0GCSqGSIb3DQEJARYQdGVobG9v\n"
-        "QGdtYWlsLmNvbTAgFw0yMTA2MDUxNzEwNThaGA80NzU5MDUwMjE3MTA1OFowgZ0x\n"
-        "CzAJBgNVBAYTAktSMQ4wDAYDVQQIDAVTZW91bDEQMA4GA1UEBwwHR2FuZ25hbTEM\n"
-        "MAoGA1UECgwDTEdFMRYwFAYDVQQLDA1TZWNTcGVjaWFsaXN0MSUwIwYDVQQDDBw0\n"
-        "dGVudGlhbCBDQSBSb290IENlcnRpZmljYXRlMR8wHQYJKoZIhvcNAQkBFhB0ZWhs\n"
-        "b29AZ21haWwuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE4O7qjNWPVgUF\n"
-        "5CPbbe24bAGyV+AKKrrtbQ/eaYn90kpmtkL7o5br7GsZISW2SBbmBmYRH4Igg3/Y\n"
-        "ftf4j0BCTDAKBggqhkjOPQQDAgNHADBEAiByX2OOGwkPgJm0hFm/Z5UjTvkLbPUK\n"
-        "txYcyeSWQB/hzAIgez3HVhXUOKoAat9/hS86IG/bdubhggy4wOujM2ebfXM=\n"
-        "-----END CERTIFICATE-----";
 
 SslConnect::SslConnect() {
     SSL_library_init();
@@ -55,15 +42,12 @@ bool SslConnect::Connect(int fd)
     m_ssl = SSL_new(m_ctx);
     SSL_set_fd(m_ssl, fd);
     if (SSL_connect(m_ssl) == -1) {
-        printf("Connect failed\n");
-        return false;
-    }
-
-    if (!CheckPeerCertificate()) {
+        printf("Connection failed\n");
         return false;
     }
 
     if (!this->VerifyCertificate()) {
+        printf("Verification failed\n");
         return false;
     }
 
@@ -113,14 +97,16 @@ void SslConnect::LoadCertificates(const char* certFile, const char* keyFile)
     }
 }
 
-bool SslConnect::CheckPeerCertificate() {
+bool SslConnect::VerifyCertificate() {
+    X509_STORE* store;
     X509* server_cert = SSL_get_peer_certificate(m_ssl);
     if (server_cert == NULL) {
         printf("Server does not have certificate.\n");
         return false;
     }
-    printf("Client certificate:\n");
 
+    //  Show server certificate info
+    printf("Server certificate:\n");
     char* str = X509_NAME_oneline(X509_get_subject_name(server_cert), 0, 0);
     CHK_NULL(str);
     printf("\t subject: %s\n", str);
@@ -131,32 +117,25 @@ bool SslConnect::CheckPeerCertificate() {
     printf("\t issuer: %s\n", str);
     OPENSSL_free(str);
 
-    /* We could do all sorts of certificate verification stuff here before deallocating the certificate. */
+    //  Verify server certificate
+    if (!(store = X509_STORE_new()))
+        printf("error creating store...\n");
+
+    X509_STORE_CTX* vrfy_ctx = X509_STORE_CTX_new();
+    int ret = X509_STORE_load_locations(store, PATH_ROOTCA_FILE, NULL);
+    if (ret != 1) {
+        printf("Error loading CA\n");
+        return false;
+    }
+
+    X509_STORE_CTX_init(vrfy_ctx, store, server_cert, NULL);
+
+    bool verified = (X509_verify_cert(vrfy_ctx) > 0);
+    X509_STORE_CTX_free(vrfy_ctx);
+    X509_STORE_free(store);
     X509_free(server_cert);
-    return true;
-}
 
-bool SslConnect::VerifyCertificate() {
-    X509_STORE* store;
-    X509* cert = NULL;
-    BIO* bio = BIO_new_mem_buf(root_ca, -1);
-
-    PEM_read_bio_X509(bio, &cert, 0, NULL);
-    if (cert == NULL) {
-        printf("PEM_read_bio_X509 failed...\n");
-    }
-
-    /* get a pointer to the X509 certificate store (which may be empty!) */
-    store = SSL_CTX_get_cert_store((SSL_CTX*)m_ctx);
-
-    /* add our certificate to this store */
-    if (X509_STORE_add_cert(store, cert) == 0) {
-        printf("error adding certificate\n");
-    }
-
-    X509_STORE_CTX* store_ctx = X509_STORE_CTX_new();
-    X509_STORE_CTX_init(store_ctx, store, cert, NULL);
-    return X509_verify_cert(store_ctx);;
+    return verified;
 }
 
 SSL* SslConnect::GetSSL() {
