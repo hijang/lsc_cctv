@@ -5,6 +5,8 @@
 #include "common.h"
 #include "cctvCrypto.h"
 
+#include<iostream>
+#include<fstream>
 
 void* safeCudaMalloc(size_t memSize)
 {
@@ -70,14 +72,58 @@ void loadInputImage(std::string inputFilePath, cv::Mat& image, int videoFrameWid
 }
 
 void loadInputImageSecure(std::string inputFilePath, cv::Mat& image, int videoFrameWidth, int videoFrameHeight) {
-    unsigned char buf[1024*1000] = {0,};
-    int img_size = 0;
+    unsigned char *buf = NULL;
+    unsigned char *dec_buf = NULL;
+    int img_size = readFileSize(inputFilePath);
+    int dec_size = 0;
 
-    if (!do_crypt_buf(inputFilePath.c_str(), buf, &img_size, 0)) {
-      printf("decryption failed\n");
+    if (img_size == 0) {
+      printf("load image size of file(%s) is failed \n", inputFilePath.c_str());
+      exit(1);
+    } else {
+      printf("load image size of file(%s)(%u) is success \n", inputFilePath.c_str(), img_size);
+    }
+
+    buf = (unsigned char*) malloc(img_size * sizeof(char));
+
+    if (buf == NULL) {
+      printf("malloc is failed \n");
       exit(1);
     }
-    std::vector<unsigned char> buffer(buf, buf + img_size);
+
+    if (!do_crypt_buf(inputFilePath.c_str(), buf, &dec_size, 0)) {
+      printf("decryption failed\n");
+      free(buf);
+      exit(1);
+    }
+
+    dec_buf = (unsigned char*) malloc(dec_size);
+    memset(dec_buf, 0x00, dec_size);
+    memcpy(dec_buf, buf, dec_size);
+
+    std::vector<unsigned char> buffer(dec_buf, dec_buf + dec_size);
     image = cv::imdecode(buffer, 1);
     cv::resize(image, image, cv::Size(videoFrameWidth, videoFrameHeight));
+    free(buf);
+    free(dec_buf);
+}
+
+unsigned int readFileSize(std::string filePath)
+{
+    unsigned int size = 0;
+    std::ifstream file;
+
+    if (filePath.empty())
+        return 0;
+
+    file.open(filePath.c_str(), std::ios::binary);
+
+    if (!file.is_open())
+        return 0;
+
+    file.seekg (0, std::ios::end);
+    size = file.tellg();
+    file.seekg (0, std::ios::beg);
+    file.close();
+    return size;
 }

@@ -35,13 +35,21 @@ int kbhit()
     return select(1, &fds, NULL, NULL, &tv);
 }
 
+void clearInputBuffer(void)
+{
+    while (getchar() != '\n');
+    return;
+}
+
 int getch()
 {
     int r;
     unsigned char c;
     if ((r = read(0, &c, sizeof(c))) < 0) {
+        clearInputBuffer();
         return r;
     } else {
+        clearInputBuffer();
         return c;
     }
 }

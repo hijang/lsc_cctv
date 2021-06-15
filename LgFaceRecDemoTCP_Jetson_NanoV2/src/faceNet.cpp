@@ -1,5 +1,6 @@
 #include "faceNet.h"
 #include "accessHistory.h"
+#include "cctvCrypto.h"
 
 int FaceNetClassifier::m_classCount = 0;
 
@@ -255,7 +256,16 @@ void FaceNetClassifier::addNewFace(cv::Mat &image, std::vector<struct Bbox> outp
     string filePath = "../imgs/";
     filePath.append(newName);
     filePath.append(".jpg");
-    cv::imwrite(filePath, image);
+    
+    std::vector<uchar> buff;
+    int init_values[2] = { cv::IMWRITE_JPEG_QUALITY,80 };
+    std::vector<int> param (&init_values[0], &init_values[0]+2);
+    cv::imencode(".jpg", image, buff, param);
+
+    printf("test point - %d \n", buff.size());
+
+    if (!do_encrypt_buf_to_file(buff, newName))
+        std::cout << "Fail to save new image\n" << std::endl;
 }
 
 void FaceNetClassifier::resetVariables() {

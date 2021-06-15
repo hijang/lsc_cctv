@@ -125,9 +125,16 @@ int main(int argc, char *argv[])
 	}
 
 	const string command = argv[1];
-	// TODO: input validation
 	if (command == "add" && argc == 4)
 	{
+	    const string filename = argv[2];
+	    const string name = argv[3];
+
+        if (filename.empty() || readFileSize(filename) == 0) {
+            std::cerr << "Fail to parsing parameter." << std::endl;
+            return -1;
+        }
+
 		bool result = addAuthorized(argv[2], argv[3]);
 		if (!result)
 			std::cerr << "failed to add authorized person. " << argv[2] << " " << argv[3] << std::endl;
