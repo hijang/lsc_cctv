@@ -1,4 +1,5 @@
 #include "cctvCrypto.h"
+#include "key_manager.h"
 
 int do_crypt_file(const char *src, const char *dest, int mode) {
   FILE *in, *out;
@@ -6,9 +7,16 @@ int do_crypt_file(const char *src, const char *dest, int mode) {
   unsigned char inbuf[1024], outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
   int in_len, out_len;
   EVP_CIPHER_CTX *ctx;
+  const char desc[] = "fk";
 
-  unsigned char key[] = "0123456789abcdeF";
+  unsigned char key[256] = { 0, };
   unsigned char iv[] = "1234567887654321";
+  int klen = 0;
+
+  if (cctv_request_key(desc, key, &klen) != 0) {
+    fprintf(stderr, "request key error.\n");
+    return 0;
+  }
 
   in = fopen(src, "rb");
   if (in == NULL) {
@@ -64,10 +72,17 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
   unsigned char inbuf[1024], outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
   int in_len, out_len, total_len = 0, encrypted_total_len = 0;
   EVP_CIPHER_CTX *ctx;
+  const char desc[] = "fk";
 
   // TODO: Read AES key from outside
-  unsigned char key[] = "0123456789abcdeF";
+  unsigned char key[256] = { 0, };
   unsigned char iv[] = "1234567887654321";
+  int klen = 0;
+  
+  if (cctv_request_key(desc, key, &klen) != 0) {
+    fprintf(stderr, "request key error.\n");
+    return 0;
+  }
 
   in = fopen(path, "rb");
   if (in == NULL) {
@@ -123,10 +138,17 @@ char* encrypt_filename(const char *filename) {
   EVP_CIPHER_CTX *ctx;
   char *encoded_data = NULL;
   char *ptr;
+  const char desc[] = "fnk";
 
   // TODO: Read AES key from outside
-  unsigned char key[] = "0123456789abcdeF";
+  unsigned char key[256] = { 0, };
   unsigned char iv[] = "1234567887654321";
+  int klen = 0;
+
+  if (cctv_request_key(desc, key, &klen) != 0) {
+    fprintf(stderr, "request key error.\n");
+    goto exit;
+  }
 
   // print name
   printf("filename for encryption = %s\n", filename);
@@ -175,10 +197,17 @@ char* decrypt_filename(const char *filename) {
   char *decoded_data = NULL;
   gsize decoded_size = 0;
   char *ptr, *decrypted_filename;
+  const char desc[] = "fnk";
 
   // TODO: Read AES key from outside
-  unsigned char key[] = "0123456789abcdeF";
+  unsigned char key[256] = { 0, };
   unsigned char iv[] = "1234567887654321";
+  int klen = 0;
+
+  if (cctv_request_key(desc, key, &klen) != 0) {
+    fprintf(stderr, "request key error.\n");
+    goto exit;
+  }
 
   // print name
   printf("filename for decryption= %s\n", filename);
