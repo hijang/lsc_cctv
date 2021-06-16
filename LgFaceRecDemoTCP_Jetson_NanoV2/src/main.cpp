@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
     struct sockaddr_in sa_cli;
     socklen_t client_len;
 
-    TTcpListenPort    *TcpListenPort;
-    TTcpConnectedPort *TcpConnectedPort;
+    TTcpListenPort    *TcpListenPort = NULL;
+    TTcpConnectedPort *TcpConnectedPort = NULL;
     struct sockaddr_in cli_addr;
     socklen_t          clilen;
     bool               UseCamera=false;
@@ -178,39 +178,39 @@ int main(int argc, char *argv[])
 
 connection_wait:
 
-    int err;
-    int listen_sd;
-
     cv::cuda::GpuMat src_gpu, dst_gpu;
     cv::Mat dst_img;
     // loop over frames with inference
     auto globalTimeStart = chrono::steady_clock::now();
 
-    listen_sd = socket(AF_INET, SOCK_STREAM, 0);
-    CHK_ERR(listen_sd, "socket");
-
-    memset(&sa_serv, 0x00, sizeof(sa_serv));
-    sa_serv.sin_family = AF_INET;
-    sa_serv.sin_addr.s_addr = INADDR_ANY;
-    sa_serv.sin_port = htons(PORT_NUM);
-
-    err = bind(listen_sd, (struct sockaddr*)&sa_serv, sizeof(sa_serv));
-    CHK_ERR(err, "bind failed\n");
-
-    err = listen(listen_sd, 5);
-    CHK_ERR(err, "listen failed\n");
-
-    fprintf(stdout, "Waiting for connection from client.\n");
-
-    client_len = sizeof(sa_cli);
-    sd = accept(listen_sd, (struct sockaddr*)&sa_cli, &client_len);
-    CHK_ERR(sd, "accept");
-    close(listen_sd);
-
-    logg.trace("Monitoring system is connected from %1x, port %x\n", sa_cli.sin_addr.s_addr, sa_cli.sin_port);
-
     if (secureMode)
     {
+        int err;
+        int listen_sd;
+
+        listen_sd = socket(AF_INET, SOCK_STREAM, 0);
+        CHK_ERR(listen_sd, "socket");
+
+        memset(&sa_serv, 0x00, sizeof(sa_serv));
+        sa_serv.sin_family = AF_INET;
+        sa_serv.sin_addr.s_addr = INADDR_ANY;
+        sa_serv.sin_port = htons(PORT_NUM);
+
+        err = bind(listen_sd, (struct sockaddr*)&sa_serv, sizeof(sa_serv));
+        CHK_ERR(err, "bind failed\n");
+
+        err = listen(listen_sd, 5);
+        CHK_ERR(err, "listen failed\n");
+
+        fprintf(stdout, "Waiting for connection from client.\n");
+
+        client_len = sizeof(sa_cli);
+        sd = accept(listen_sd, (struct sockaddr*)&sa_cli, &client_len);
+        CHK_ERR(sd, "accept");
+        close(listen_sd);
+
+        logg.trace("Monitoring system is connected from %1x, port %x\n", sa_cli.sin_addr.s_addr, sa_cli.sin_port);
+
         if (!connection->acceptConnection(sd)) {
             logg.fatal("Fail to verify client for ssl connection.\n");
             fprintf(stderr, "Fail to verify client.\n");
@@ -221,11 +221,20 @@ connection_wait:
     }
     else
     {
+        clilen = sizeof(cli_addr);
+        fprintf(stdout, "Waiting for connection from client.\n");
         if  ((TcpListenPort=OpenTcpListenPort(PORT_NUM))==NULL)
         {
             fprintf(stderr, "OpenTcpListenPortFailed.\n");
             goto cleanup_and_wait;
         }
+
+        if  ((TcpConnectedPort=AcceptTcpConnection(TcpListenPort,&cli_addr,&clilen))==NULL)
+        {
+            printf("AcceptTcpConnection Failed\n");
+            goto cleanup_and_wait;
+        }
+        CloseTcpListenPort(&TcpListenPort);
     }
 
     fprintf(stdout, "Now streaming is started.\n");
@@ -320,6 +329,10 @@ cleanup_and_wait:
     if (sd) {
         close(sd);
         sd=0;
+    }
+    if (TcpConnectedPort) {
+        CloseTcpConnectedPort(&TcpConnectedPort);
+        TcpConnectedPort=NULL;
     }
     logg.trace("Connection is closed.\n");
     goto connection_wait;
