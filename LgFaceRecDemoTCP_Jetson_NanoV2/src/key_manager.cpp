@@ -13,7 +13,8 @@ extern "C" {
 
 int cctv_request_key(const char *desc, unsigned char *key, int *len)
 {
-    char auth_key_payload[256] = { 0, };
+    constexpr unsigned int KEY_SIZE = 256;
+    char auth_key_payload[KEY_SIZE] = { 0, };
     int akp_size = 0;
     long auth_key = 0;
     long ret = -1; 
