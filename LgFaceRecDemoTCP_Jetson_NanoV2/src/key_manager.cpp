@@ -45,7 +45,6 @@ int cctv_request_key(const char *desc, unsigned char *key, int *len)
 
     if (akp_size >= KEY_SIZE)
         return -1; 
-#if 0
     memcpy(key, auth_key_payload, akp_size);
     auth_key_payload[akp_size] = '\0';
     printf("Auth key payload:\n");
