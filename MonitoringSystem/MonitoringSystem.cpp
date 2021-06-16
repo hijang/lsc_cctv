@@ -19,6 +19,7 @@
 
 #define SECURE_MODE         (true)
 #define MAX_CONNECT_TRIAL   (100)
+#define PORT_NUM            (5000)
 
 using namespace cv;
 using namespace std;
@@ -36,9 +37,9 @@ int main(int argc, char* argv[])
     bool do_exit = false;
     int connect_trial = 0;
 
-    if (argc != 3)
+    if (argc != 2)
     {
-        fprintf(stderr, "usage %s hostname port\n", argv[0]);
+        fprintf(stderr, "usage %s hostname\n", argv[0]);
         exit(0);
     }
 
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
         do {
             connect_trial++;
             printf("Tring to connect(%d)...\n", connect_trial);
-            if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open TCP Network port
+            if ((TcpConnectedPort = OpenTcpConnection(argv[1], PORT_NUM)) == NULL)  // Open TCP Network port
             {
                 printf("Error on OpenTcpConnection\n");
                 //  Terminate if it met maximum trial

@@ -141,8 +141,20 @@ int do_encrypt_buf_to_file(std::vector<unsigned char> buffer, std::string filena
     EVP_CIPHER_CTX *ctx;
 
     // TODO: Read AES key from outside
-    unsigned char key[] = "0123456789abcdeF";
+    unsigned char key[16] = { 0, };
     unsigned char iv[] = "1234567887654321";
+    int klen = 0;
+    const char desc[] = "fk";
+
+    if (cctv_request_key(desc, key, &klen) != 0) {
+      fprintf(stderr, "request key error.\n");
+      return 0;
+    } else {
+      if (klen != 16) {
+        fprintf(stderr, "key length is not expected value \n");
+        return 0;
+      }
+    }
 
     std::string encodedFileName = "../imgs/";
     encodedFileName += encrypt_filename(filename.c_str());

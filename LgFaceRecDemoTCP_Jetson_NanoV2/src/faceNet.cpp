@@ -4,6 +4,12 @@
 
 int FaceNetClassifier::m_classCount = 0;
 
+void clearInputBuffer(void)
+{
+    while (getchar() != '\n');
+    return;
+}
+
 FaceNetClassifier::FaceNetClassifier
 (Logger gLogger, DataType dtype, const string uffFile, const string engineFile, int batchSize, bool serializeEngine,
         float knownPersonThreshold, int maxFacesPerScene, int frameWidth, int frameHeight) {
@@ -250,6 +256,7 @@ void FaceNetClassifier::addNewFace(cv::Mat &image, std::vector<struct Bbox> outp
     std::cout << "Adding new person...\nPlease make sure there is only one face in the current frame.\n"
               << "What's your name? ";
     string newName;
+    clearInputBuffer();
     std::cin >> newName;
     std::cout << "Hi " << newName << ", you will be added to the database.\n";
     forwardAddFace(image, outputBbox, newName);
