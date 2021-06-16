@@ -11,14 +11,25 @@ extern "C" {
 #include <errno.h>
 #include "key_manager.h"
 
-int cctv_request_key(const char *desc, unsigned char *key, int *len)
-{
-    constexpr unsigned int KEY_SIZE = 256;
-    char auth_key_payload[KEY_SIZE] = { 0, };
-    int akp_size = 0;
-    long auth_key = 0;
-    long ret = -1; 
+int cctv_request_key(const char *desc, unsigned char *key, int *len) {
+    char* _key = NULL;
+    int key_len = 0;
+    key_len = cctv_request_key_alloc(desc, (void**)&_key);
+    if (key_len < 0) {
+        perror("unable to request key");
+        return -1;
+    }
+    memcpy(key, _key, key_len);
+    *len = key_len;
+    free(_key);
 
+    return 1;
+}
+
+int cctv_request_key_alloc(const char *desc, void **key)
+{
+    long auth_key = 0;
+    long ret = -1;
     /*
      * Workaround on keyctl()
      */
@@ -35,18 +46,8 @@ int cctv_request_key(const char *desc, unsigned char *key, int *len)
         return -1; 
     //printf("Auth key ID:          %lu\n", (long) auth_key);
 
-    akp_size = keyctl(KEYCTL_READ, auth_key,
-             auth_key_payload, sizeof(auth_key_payload));
-    if (akp_size == -1) {
-        printf("KEYCTL_READ failed: %s\n", strerror(errno));
-        return -1; 
-    }   
-    *len = akp_size;
+    int size = keyctl_read_alloc(auth_key, key);
+    // printf("%d loaded %s\n", size, *key);
 
-    if (akp_size >= KEY_SIZE)
-        return -1; 
-    memcpy(key, auth_key_payload, akp_size);
-    auth_key_payload[akp_size] = '\0';
-    
-    return 0;
+    return size;
 }

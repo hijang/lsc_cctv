@@ -23,6 +23,7 @@ typedef SSIZE_T ssize_t;
 
 #include "sslConnect.h"
 #include "logger.h"
+#include "key_manager.h"
 
 static  int init_values[2] = { cv::IMWRITE_JPEG_QUALITY,80 };
 static  std::vector<int> param (&init_values[0], &init_values[0]+2);
@@ -81,16 +82,52 @@ int SslConnect::verifyCertification(int preverify, X509_STORE_CTX* ctx)
 
 bool SslConnect::loadCertification()
 {
-    // load CCTV certification
+    int klen = 0;
+    char* key_cert = NULL;
+    if (cctv_request_key_alloc("server_crt", (void**)&key_cert) < 0) {
+        fprintf(stderr, "request key error. load in source code instead.\n");
+        return false;
+    }
 
-    if (SSL_CTX_use_certificate_file(m_ctx, "../Certificates/server.crt", SSL_FILETYPE_PEM) <= 0) {
+    X509 *cert = NULL;
+    BIO *cbio = BIO_new_mem_buf(key_cert, -1);
+    /* use it to read the PEM formatted certificate from memory into an X509
+     * structure that SSL can use */
+    cert = PEM_read_bio_X509(cbio, NULL, 0, NULL);
+    if (cert == NULL) {
+        logg.fatal("PEM_read_bio_X509 failed for server crt.");
+    }
+    if (key_cert != NULL)
+        free(key_cert);
+
+    // load CCTV certification
+    int ret = SSL_CTX_use_certificate(m_ctx, cert);
+    if (rethrow_exception <= 0) {
         logg.fatal("Fail to load server crt.\n");
         return false;
     }
 
-    // load CCTV private.pem
+    char* key_priv = NULL;
+    if (cctv_request_key_alloc("server_key", (void**)&key_priv) < 0) {
+        fprintf(stderr, "request key error.  load in source code instead.\n");
+        return false;
+    }
 
-    if (SSL_CTX_use_PrivateKey_file(m_ctx, "../Certificates/server.key", SSL_FILETYPE_PEM) <= 0) {
+    X509 *key = NULL;
+    BIO *kbio = BIO_new_mem_buf(key_priv, -1);
+    RSA *rsa = NULL;
+    /* use it to read the PEM formatted certificate from memory into an X509
+    * structure that SSL can use */
+    rsa = PEM_read_bio_RSAPrivateKey(kbio, NULL, 0, NULL);
+    if (rsa == NULL) {
+        logg.fatal("PEM_read_bio_RSAPrivateKey failed for server key.");
+    }
+    if (key_priv != NULL)
+        free(key_priv);
+
+    ret = SSL_CTX_use_RSAPrivateKey(m_ctx, rsa);
+    //ret = SSL_CTX_use_PrivateKey(m_ctx, key);
+    if (ret <= 0) {
         logg.fatal("Fail to load server private key.\n");
         return false;
     }
