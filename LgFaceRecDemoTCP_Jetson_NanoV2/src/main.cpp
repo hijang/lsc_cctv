@@ -21,6 +21,8 @@
 
 #define CHK_ERR(err, s) if((err) == -1) { perror(s); exit(1); }
 
+#define PORT_NUM    (5000)
+
 void signalHandler( int signum ) {
     logg.fatal("CCTV system will be shut-down now!\n");
     exit(signum);
@@ -79,21 +81,25 @@ int main(int argc, char *argv[])
 
     SslConnect* connection = NULL;
 
-    if (argc <3)
+    if (argc <2)
     {
-        fprintf(stderr,"usage %s [port] [securedmode] [filename]\n", argv[0]);
+        fprintf(stderr,"usage %s [securedmode:0/1] [filename]\n", argv[0]);
         fprintf(stderr,"[securedmode] : non-secure-0/secure mode-1\n");
         exit(0);
     }
 
-    if (argc==3) UseCamera=true;
-    if (atoi(argv[2]) == 0)
+    if (argc==2) UseCamera=true;
+    if (atoi(argv[1]) == 0)
         secureMode = 0;
 
-    if (argc==4 && access(argv[3], F_OK) != 0)
+    std::string videoFile;
+    if (argc==3)
     {
-        fprintf(stderr,"File is not exist. Check file to play video file(%s) \n", argv[3]);
-        exit(0);
+        videoFile = std::string(argv[2]);
+        if (videoFile.empty() || access(videoFile.c_str(), F_OK) != 0) {
+            fprintf(stderr,"File is not exist. Check file to play video file(%s) \n", argv[2]);
+            exit(0);
+        }
     }
 
     Logger gLogger = Logger();
@@ -143,7 +149,7 @@ int main(int argc, char *argv[])
 
     // init opencv stuff
     if (UseCamera)  videoStreamer = new VideoStreamer(0, videoFrameWidth, videoFrameHeight, 60, isCSICam);
-    else videoStreamer = new VideoStreamer(argv[3], videoFrameWidth, videoFrameHeight);
+    else videoStreamer = new VideoStreamer(videoFile, videoFrameWidth, videoFrameHeight);
 
     cv::Mat frame;
 
@@ -163,7 +169,6 @@ int main(int argc, char *argv[])
         char* rawName = NULL;
         loadInputImageSecure(paths[i].absPath, image, videoFrameWidth, videoFrameHeight);
         outputBbox = mtCNN.findFace(image);
-        printf("%s\n", paths[i].fileName.c_str());
         rawName = decrypt_filename(paths[i].fileName.c_str());
         faceNet.forwardAddFace(image, outputBbox, rawName);
         faceNet.resetVariables();
@@ -187,7 +192,7 @@ connection_wait:
     memset(&sa_serv, 0x00, sizeof(sa_serv));
     sa_serv.sin_family = AF_INET;
     sa_serv.sin_addr.s_addr = INADDR_ANY;
-    sa_serv.sin_port = htons((atoi(argv[1])));
+    sa_serv.sin_port = htons(PORT_NUM);
 
     err = bind(listen_sd, (struct sockaddr*)&sa_serv, sizeof(sa_serv));
     CHK_ERR(err, "bind failed\n");
@@ -216,7 +221,7 @@ connection_wait:
     }
     else
     {
-        if  ((TcpListenPort=OpenTcpListenPort(atoi(argv[1])))==NULL)
+        if  ((TcpListenPort=OpenTcpListenPort(PORT_NUM))==NULL)
         {
             fprintf(stderr, "OpenTcpListenPortFailed.\n");
             goto cleanup_and_wait;
