@@ -47,10 +47,6 @@ int cctv_request_key(const char *desc, unsigned char *key, int *len)
         return -1; 
     memcpy(key, auth_key_payload, akp_size);
     auth_key_payload[akp_size] = '\0';
-    printf("Auth key payload:\n");
-    for (int i = 0; i < akp_size; ++i) {
-        printf("%c", auth_key_payload[i]);
-    }   
-    printf("\n");
+    
     return 0;
 }
