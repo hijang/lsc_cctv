@@ -67,12 +67,12 @@ int SslConnect::verifyCertification(int preverify, X509_STORE_CTX* ctx)
     }
 
     if (!preverify) {
-        printf("\n verify error:%d:%s:depth:%d:%s \n", err, X509_verify_cert_error_string(err), depth, buf);
+        logg.fatal("\n verify error:%d:%s:depth:%d:%s \n", err, X509_verify_cert_error_string(err), depth, buf);
     }
 
     if (!preverify && (err == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT)) {
         X509_NAME_oneline(X509_get_issuer_name(cert), buf, 256);
-        printf("issuer= %s\n", buf);
+        logg.trace("issuer= %s\n", buf);
     }
 
     return preverify;

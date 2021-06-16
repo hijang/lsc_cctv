@@ -107,7 +107,7 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
       res = 0;
       goto exit;
     }
-    memcpy(buf + total_len, outbuf, sizeof(int)*out_len);
+    memcpy(buf + total_len, outbuf, out_len);
     encrypted_total_len += in_len;
     total_len += out_len;
   }
@@ -119,10 +119,10 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
     goto exit;
   }
 
-  memcpy(buf + total_len, outbuf, sizeof(int)*out_len);
+  memcpy(buf + total_len, outbuf, out_len);
   total_len += out_len;
 
-  printf("filename = %24s, encrypted_img_size = %6d bytes, decrypted_img_size = %6d bytes\n", path, encrypted_total_len, total_len);
+  //printf("filename = %24s, encrypted_img_size = %6d bytes, decrypted_img_size = %6d bytes\n", path, encrypted_total_len, total_len);
 
 exit:
   *decrypted_size = total_len;
@@ -130,6 +130,63 @@ exit:
   fclose(in);
 
   return res;
+}
+
+int do_encrypt_buf_to_file(std::vector<unsigned char> buffer, std::string filename) {
+    int res = 1;
+    unsigned char* buf = reinterpret_cast<unsigned char*>(buffer.data());
+    FILE *out;
+    unsigned char inbuf[1024], outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
+    int in_len=1024, out_len=0, total_len=0, result = buffer.size();
+    EVP_CIPHER_CTX *ctx;
+
+    // TODO: Read AES key from outside
+    unsigned char key[] = "0123456789abcdeF";
+    unsigned char iv[] = "1234567887654321";
+
+    std::string encodedFileName = "../imgs/";
+    encodedFileName += encrypt_filename(filename.c_str());
+
+    out = fopen(encodedFileName.c_str(), "wb");
+    if (out == NULL) {
+        fprintf(stderr, "file open error.\n");
+        return res;
+    }
+
+    ctx = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_init(ctx);
+    EVP_CipherInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv, 1);
+    OPENSSL_assert(EVP_CIPHER_CTX_key_length(ctx) == 16);
+    OPENSSL_assert(EVP_CIPHER_CTX_iv_length(ctx) == 16);
+
+    while (1) {
+        if (!EVP_CipherUpdate(ctx, outbuf, &out_len, buf+total_len, in_len)) {
+            printf("EVP_CipherUpdate error.\n");
+            res = 0;
+            goto exit;
+        }
+        total_len+=in_len;
+        fwrite(outbuf, 1, out_len, out);
+        if (total_len >= buffer.size())
+            break;
+    }
+
+    if (!EVP_CipherFinal_ex(ctx, outbuf, &out_len)) {
+        printf("EVP_CipherUpdate error.\n");
+        res = 0;
+        goto exit;
+    } else {
+        total_len+=out_len;
+    }
+
+    fwrite(outbuf, 1, out_len, out);
+    //printf("file encryption is success. size:%d \n", total_len);
+
+exit:
+    EVP_CIPHER_CTX_free(ctx);
+    fclose(out);
+
+    return res;
 }
 
 char* encrypt_filename(const char *filename) {
@@ -151,7 +208,7 @@ char* encrypt_filename(const char *filename) {
   }
 
   // print name
-  printf("filename for encryption = %s\n", filename);
+  //printf("filename for encryption = %s\n", filename);
 
   // encrypt name
   ctx = EVP_CIPHER_CTX_new();
@@ -172,7 +229,7 @@ char* encrypt_filename(const char *filename) {
 
   // base64 encode
   encoded_data = g_base64_encode((const guchar *)outbuf, out_len + fin_len);
-  printf("base64 encoded data = %s\n", encoded_data);
+  //printf("base64 encoded data = %s\n", encoded_data);
 
   ptr = encoded_data;
   while (*ptr) {
@@ -181,7 +238,7 @@ char* encrypt_filename(const char *filename) {
     }
     ptr++;
   }
-  printf("base64 replaced data = %s\n", encoded_data);
+  //printf("base64 replaced data = %s\n", encoded_data);
 
 exit:
   EVP_CIPHER_CTX_free(ctx);
@@ -210,12 +267,12 @@ char* decrypt_filename(const char *filename) {
   }
 
   // print name
-  printf("filename for decryption= %s\n", filename);
+  //printf("filename for decryption= %s\n", filename);
 
   if ((buf = strdup((const char*)filename)) == NULL) {
     fprintf(stderr, "strdup error.\n");
     return NULL;
-  } 
+  }
 
   ptr = buf;
   while (*ptr) {
@@ -224,7 +281,7 @@ char* decrypt_filename(const char *filename) {
     }
     ptr++;
   }
-  printf("base64 replaced data = %s\n", buf);
+  //printf("base64 replaced data = %s\n", buf);
 
 
   // base64 decode

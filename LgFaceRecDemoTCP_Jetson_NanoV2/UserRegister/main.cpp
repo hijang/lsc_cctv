@@ -90,7 +90,7 @@ bool addAuthorized(const string inputImagePath, const string personName)
 		std::cout << "invalid picture." << std::endl;
 		return false;
 	}
-	
+
 	// TODO: 경로 처리 시 input validation 필요
 	do_crypt_file(inputImagePath.c_str(), makePersonImagePath(personName).c_str(), 1 /*encrypt*/);
 
@@ -125,9 +125,16 @@ int main(int argc, char *argv[])
 	}
 
 	const string command = argv[1];
-	// TODO: input validation
 	if (command == "add" && argc == 4)
 	{
+	    const string filename = argv[2];
+	    const string name = argv[3];
+
+	    if (filename.empty() || readFileSize(filename) == 0) {
+	        std::cerr << "Fail to parsing parameter." << std::endl;
+	        return -1;
+	    }
+
 		bool result = addAuthorized(argv[2], argv[3]);
 		if (!result)
 			std::cerr << "failed to add authorized person. " << argv[2] << " " << argv[3] << std::endl;
@@ -138,13 +145,11 @@ int main(int argc, char *argv[])
 		if (!result)
 			std::cerr << "failed to remove authorized person. " << argv[2] << std::endl;
 	}
-	else 
+	else
 	{
 		cerr << R"(invalid command. use 'add' or 'remove')" << "\n";
 		return -1;
 	}
-
-	
 
 	return 0;
 }
