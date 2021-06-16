@@ -13,7 +13,7 @@ int do_crypt_file(const char *src, const char *dest, int mode) {
   unsigned char iv[] = "1234567887654321";
   int klen = 0;
 
-  if (cctv_request_key(desc, key, &klen) != 0) {
+  if (cctv_request_key(desc, key, &klen) <= 0) {
     fprintf(stderr, "request key error.\n");
     return 0;
   }
@@ -78,8 +78,8 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
   unsigned char key[256] = { 0, };
   unsigned char iv[] = "1234567887654321";
   int klen = 0;
-  
-  if (cctv_request_key(desc, key, &klen) != 0) {
+
+  if (cctv_request_key(desc, key, &klen) <= 0) {
     fprintf(stderr, "request key error.\n");
     return 0;
   }
@@ -146,7 +146,7 @@ int do_encrypt_buf_to_file(std::vector<unsigned char> buffer, std::string filena
     int klen = 0;
     const char desc[] = "fk";
 
-    if (cctv_request_key(desc, key, &klen) != 0) {
+    if (cctv_request_key(desc, key, &klen) <= 0) {
       fprintf(stderr, "request key error.\n");
       return 0;
     } else {
@@ -214,7 +214,7 @@ char* encrypt_filename(const char *filename) {
   unsigned char iv[] = "1234567887654321";
   int klen = 0;
 
-  if (cctv_request_key(desc, key, &klen) != 0) {
+  if (cctv_request_key(desc, key, &klen) <= 0) {
     fprintf(stderr, "request key error.\n");
     goto exit;
   }
@@ -273,7 +273,7 @@ char* decrypt_filename(const char *filename) {
   unsigned char iv[] = "1234567887654321";
   int klen = 0;
 
-  if (cctv_request_key(desc, key, &klen) != 0) {
+  if (cctv_request_key(desc, key, &klen) <= 0) {
     fprintf(stderr, "request key error.\n");
     goto exit;
   }

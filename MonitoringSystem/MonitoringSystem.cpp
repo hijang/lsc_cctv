@@ -19,7 +19,7 @@
 
 #define SECURE_MODE         (true)
 #define MAX_CONNECT_TRIAL   (100)
-#define PORT_NUM            (5000)
+#define PORT_NUM            "5000"
 
 using namespace cv;
 using namespace std;
