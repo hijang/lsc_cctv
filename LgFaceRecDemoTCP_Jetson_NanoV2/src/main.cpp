@@ -22,6 +22,8 @@
 #define CHK_ERR(err, s) if((err) == -1) { perror(s); exit(1); }
 
 #define PORT_NUM    (5000)
+// 1 : Secure Mode / 0 : Non Secure Mode
+#define SECURE_MODE (1)
 
 void signalHandler( int signum ) {
     logg.fatal("CCTV system will be shut-down now!\n");
@@ -65,7 +67,6 @@ using namespace nvuffparser;
 int main(int argc, char *argv[])
 {
     int sd;
-    int secureMode = 1;
     struct sockaddr_in sa_serv;
     struct sockaddr_in sa_cli;
     socklen_t client_len;
@@ -81,21 +82,12 @@ int main(int argc, char *argv[])
 
     SslConnect* connection = NULL;
 
-    if (argc <2)
-    {
-        fprintf(stderr,"usage %s [securedmode:0/1] [filename]\n", argv[0]);
-        fprintf(stderr,"[securedmode] : non-secure-0/secure mode-1\n");
-        exit(0);
-    }
-
-    if (argc==2) UseCamera=true;
-    if (atoi(argv[1]) == 0)
-        secureMode = 0;
+    if (argc==1) UseCamera=true;
 
     std::string videoFile;
-    if (argc==3)
+    if (argc==2)
     {
-        videoFile = std::string(argv[2]);
+        videoFile = std::string(argv[1]);
         if (videoFile.empty() || access(videoFile.c_str(), F_OK) != 0) {
             fprintf(stderr,"File is not exist. Check file to play video file(%s) \n", argv[2]);
             exit(0);
@@ -123,7 +115,7 @@ int main(int argc, char *argv[])
     float knownPersonThreshold = 1.;
     bool isCSICam = true;
 
-    if (secureMode)
+    if (SECURE_MODE)
     {
         connection = new SslConnect;
         if (connection == NULL) {
@@ -183,7 +175,7 @@ connection_wait:
     // loop over frames with inference
     auto globalTimeStart = chrono::steady_clock::now();
 
-    if (secureMode)
+    if (SECURE_MODE)
     {
         int err;
         int listen_sd;
@@ -267,7 +259,7 @@ connection_wait:
         faceNet.featureMatching(frame);
         auto endFeatM = chrono::steady_clock::now();
         faceNet.resetVariables();
-        if (secureMode)
+        if (SECURE_MODE)
         {
             if (connection->sslWriteFromImageToJpeg(frame)<=0) goto cleanup_and_wait;
         }
@@ -303,7 +295,7 @@ connection_wait:
                 dst_gpu.download(frame);
 
                 outputBbox = mtCNN.findFace(frame);
-                if (secureMode)
+                if (SECURE_MODE)
                 {
                     if (connection->sslWriteFromImageToJpeg(frame)<=0) goto cleanup_and_wait;
                 }
