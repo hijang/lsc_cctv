@@ -76,7 +76,7 @@ bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image)
 
     int success = SSL_read(ssl, &imagesize, sizeof(imagesize));
     if (success <= 0) return false;
-    printf("success = %d, imagesize??? %u\n", success, imagesize);
+    //printf("success = %d, imagesize??? %u\n", success, imagesize);
 
     imagesize = ntohl(imagesize); // convert image size to host format
     if (imagesize < 0) return false;
@@ -102,7 +102,7 @@ bool SslRecvImageAsJpeg(SSL* ssl, cv::Mat* Image)
         total_size += recvd_size;
         // printf(" received %d / %d\n", recvd_size, total_size);
     }
-    printf(" received %d / %d / %u\n", recvd_size, total_size, imagesize);
+    //printf(" received %d / %d / %u\n", recvd_size, total_size, imagesize);
 
     if (total_size == imagesize) {
         cv::imdecode(cv::Mat(imagesize, 1, CV_8UC1, buff), cv::IMREAD_COLOR, Image);
