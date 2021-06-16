@@ -53,6 +53,5 @@ int cctv_request_key(const char *desc, unsigned char *key, int *len)
         printf("%c", auth_key_payload[i]);
     }   
     printf("\n");
-#endif
     return 0;
 }
