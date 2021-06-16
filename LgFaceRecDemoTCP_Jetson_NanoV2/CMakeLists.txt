@@ -13,6 +13,7 @@ endif()
 # glib
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLIB REQUIRED glib-2.0)
+message("-- GLIB version: ${GLIB_VERSION}")
 include_directories(${GLIB_INCLUDE_DIRS})
 lINK_DIRECTORIES(${GLIB_LIBRARY_DIRS})
 

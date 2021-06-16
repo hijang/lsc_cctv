@@ -236,9 +236,9 @@ void FaceNetClassifier::featureMatching(cv::Mat &image) {
            record.insertToMySet(m_knownFaces[winner].className.c_str());
         }
         else if (minDistance > m_knownPersonThresh || winner == -1){
-            //cv::putText(image, "New Person", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
+            //cv::putText(image, "Unauthorized", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
             //        cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4 ,  cv::Scalar(0,0,255,255), 1);
-           cv::putText(image, "New Person", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
+           cv::putText(image, "Unauthorized", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
                     cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4 ,  cv::Scalar(0,0,255,255), 1);
 
         }
