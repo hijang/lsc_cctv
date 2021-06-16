@@ -107,7 +107,7 @@ int do_crypt_buf(const char *path, unsigned char *buf, int *decrypted_size, int 
   memcpy(buf + total_len, outbuf, out_len);
   total_len += out_len;
 
-  printf("filename = %24s, encrypted_img_size = %6d bytes, decrypted_img_size = %6d bytes\n", path, encrypted_total_len, total_len);
+  //printf("filename = %24s, encrypted_img_size = %6d bytes, decrypted_img_size = %6d bytes\n", path, encrypted_total_len, total_len);
 
 exit:
   *decrypted_size = total_len;
@@ -119,7 +119,6 @@ exit:
 
 int do_encrypt_buf_to_file(std::vector<unsigned char> buffer, std::string filename) {
     int res = 1;
-    printf("before start \n");
     unsigned char* buf = reinterpret_cast<unsigned char*>(buffer.data());
     FILE *out;
     unsigned char inbuf[1024], outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
@@ -166,7 +165,7 @@ int do_encrypt_buf_to_file(std::vector<unsigned char> buffer, std::string filena
     }
 
     fwrite(outbuf, 1, out_len, out);
-    printf("file encryption is success. size:%d \n", total_len);
+    //printf("file encryption is success. size:%d \n", total_len);
 
 exit:
     EVP_CIPHER_CTX_free(ctx);
@@ -187,7 +186,7 @@ char* encrypt_filename(const char *filename) {
   unsigned char iv[] = "1234567887654321";
 
   // print name
-  printf("filename for encryption = %s\n", filename);
+  //printf("filename for encryption = %s\n", filename);
 
   // encrypt name
   ctx = EVP_CIPHER_CTX_new();
@@ -208,7 +207,7 @@ char* encrypt_filename(const char *filename) {
 
   // base64 encode
   encoded_data = g_base64_encode((const guchar *)outbuf, out_len + fin_len);
-  printf("base64 encoded data = %s\n", encoded_data);
+  //printf("base64 encoded data = %s\n", encoded_data);
 
   ptr = encoded_data;
   while (*ptr) {
@@ -217,7 +216,7 @@ char* encrypt_filename(const char *filename) {
     }
     ptr++;
   }
-  printf("base64 replaced data = %s\n", encoded_data);
+  //printf("base64 replaced data = %s\n", encoded_data);
 
 exit:
   EVP_CIPHER_CTX_free(ctx);
@@ -239,12 +238,12 @@ char* decrypt_filename(const char *filename) {
   unsigned char iv[] = "1234567887654321";
 
   // print name
-  printf("filename for decryption= %s\n", filename);
+  //printf("filename for decryption= %s\n", filename);
 
   if ((buf = strdup((const char*)filename)) == NULL) {
     fprintf(stderr, "strdup error.\n");
     return NULL;
-  } 
+  }
 
   ptr = buf;
   while (*ptr) {
@@ -253,7 +252,7 @@ char* decrypt_filename(const char *filename) {
     }
     ptr++;
   }
-  printf("base64 replaced data = %s\n", buf);
+  //printf("base64 replaced data = %s\n", buf);
 
 
   // base64 decode

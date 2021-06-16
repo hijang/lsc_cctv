@@ -80,8 +80,6 @@ void loadInputImageSecure(std::string inputFilePath, cv::Mat& image, int videoFr
     if (img_size == 0) {
       printf("load image size of file(%s) is failed \n", inputFilePath.c_str());
       exit(1);
-    } else {
-      printf("load image size of file(%s)(%u) is success \n", inputFilePath.c_str(), img_size);
     }
 
     buf = (unsigned char*) malloc(img_size * sizeof(char));
