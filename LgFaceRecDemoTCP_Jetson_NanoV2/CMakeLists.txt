@@ -107,6 +107,7 @@ cuda_add_executable(UserRegister
   ./src/onet_rt.cpp
   ./src/network.cpp
   ./src/cctvCrypto.cpp
+  ./src/key_manager.cpp
 )
 
 include_directories(
@@ -122,6 +123,7 @@ target_link_libraries(${PROJECT_NAME}
   ${TENSORRT_LIBRARY}
   ${LIBSSL}
   ${LIBCRYPTO}
+  keyutils
 )
 
 target_link_libraries(UserRegister
@@ -131,9 +133,19 @@ target_link_libraries(UserRegister
   ${OpenCV_LIBS}
   ${GLIB_LIBRARIES}
   stdc++fs
+  keyutils
 )
 
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS} ${GLIB_LIBRARIES})
 
-add_executable(cryptotest ./src/cryptoTest/cryptoTest.cpp ./src/cctvCrypto.cpp)
-target_link_libraries(cryptotest ssl crypto ${GLIB_LIBRARIES})
+add_executable(cryptotest
+  ./src/cryptoTest/cryptoTest.cpp
+  ./src/cctvCrypto.cpp
+  ./src/key_manager.cpp
+)
+target_link_libraries(cryptotest
+  ssl
+  crypto
+  ${GLIB_LIBRARIES}
+  keyutils
+)
