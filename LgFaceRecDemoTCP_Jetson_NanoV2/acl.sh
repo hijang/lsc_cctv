@@ -2,7 +2,7 @@
 
 mkdir logs
 chown cctv:manager ./logs -R
-chmod 740 ./logs -R
+chmod 750 ./logs -R
 
 chown cctv:cctv ./imgs -R
 chmod 700 ./imgs -R
