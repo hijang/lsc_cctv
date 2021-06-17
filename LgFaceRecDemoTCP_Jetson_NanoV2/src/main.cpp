@@ -175,6 +175,9 @@ connection_wait:
         listen_sd = socket(AF_INET, SOCK_STREAM, 0);
         CHK_ERR(listen_sd, "socket");
 
+        int optval = 1;
+        setsockopt(listen_sd, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, (int)sizeof(optval));
+
         memset(&sa_serv, 0x00, sizeof(sa_serv));
         sa_serv.sin_family = AF_INET;
         sa_serv.sin_addr.s_addr = INADDR_ANY;
