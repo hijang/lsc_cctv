@@ -1,16 +1,30 @@
-# 빌드
+# Tartan Project
+List of final deliverables of the Tartan project
 
-## windows 빌드
- 
-* 필요 라이브러리
-  * opencv 4.5.1 
-* 환경 변수 설정
-  * OPENCV_DIR 변수 추가
-    * [opencv 설치 디렉터리]\build\x64\vc15
-  * PATH에 아래 경로 추가
-    * [opencv 설치 디렉터리]\build\x64\vc15\bin
 
-* 빌드 (Visual Studio)
-  * MonitoringSystem.sln 솔루션 이용
-  * Debug x64 configuration으로 빌드
+## Index
+- [How to build](#how-to-build)
+- [Documents](#documents)
+- [Security Response Contact](#security-response-contact)
+- [Contributing](#contributing)
 
+## How to build
+- [CCTV](http://CCTVlink) - CCTV server.
+- [Monitoring System](http://monitoring_system_link) - Monitoring System client.
+
+## Documents
+- [System Requirement]()
+- [Design]()
+- [Threat List]()
+- [Risk Assessment]()
+- [Test Cases]()
+- [Test Results]()
+- [Phase#1 Presentation]()
+
+## Security Response Contact
+
+xxx@gmail.com
+
+
+## Contributing
+Your contributions are always welcome!
