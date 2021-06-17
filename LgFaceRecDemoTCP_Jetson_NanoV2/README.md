@@ -78,7 +78,16 @@ WantedBy=multi-user.target
 ```bash
 $ ln /home/cctv/cctv.sh /home/cctv/work/lsc_cctv/cctv.sh
 ```
-### 2. Reload daemon and start service
+
+### 2. Set dependency to camera daemon
+Make dependancy to `/etc/systemd/system/nvargus-daemon.service` for stop or restart of cctv. Otherwise, cctv service can not be loaded due to camera function.
+```
+[Unit]
+Description=Argus daemon
+...
+PartOf=cctv.service
+```
+### 3. Reload daemon and start service
 ```bash
 $ sudo systemctl daemon-reload
 $ sudo systemctl start cctv

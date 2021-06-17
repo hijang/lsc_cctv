@@ -3,14 +3,16 @@ List of final deliverables of the Tartan project
 
 
 ## Index
-- [How to build](#how-to-build)
-- [Documents](#documents)
-- [Security Response Contact](#security-response-contact)
-- [Contributing](#contributing)
+- [Tartan Project](#tartan-project)
+  - [Index](#index)
+  - [How to build](#how-to-build)
+  - [Documents](#documents)
+  - [Security Response Contact](#security-response-contact)
+  - [Contributing](#contributing)
 
 ## How to build
-- [CCTV](http://CCTVlink) - CCTV server
-- [Monitoring System](https://github.com/hijang/lsc_cctv/blob/master/MonitoringSystem/README.md) - Monitoring System client
+- [CCTV](./LgFaceRecDemoTCP_Jetson_NanoV2/README.md) - CCTV server
+- [Monitoring System](./MonitoringSystem/README.md) - Monitoring System client
 
 ## Documents
 - [System Requirement]()
@@ -25,9 +27,7 @@ List of final deliverables of the Tartan project
 - [Phase#1 Presentation]()
 
 ## Security Response Contact
-
-bluing87@gmail.com
-
+Please mail to bluing87@gmail.com, or report us using [new issue](https://github.com/hijang/lsc_cctv/issues/new)
 
 ## Contributing
 Your contributions are always welcome!
