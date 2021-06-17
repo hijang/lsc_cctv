@@ -3,8 +3,11 @@
 #include <string>
 #include <sys/stat.h>
 
+
 #define MAX_LENGTH 10
 #define MAX_FILE_SIZE 100000
+#define MAX_BUF_SIZE    1024
+#define __PATH__ "../logs/"
 
 PLogger::PLogger()
 {
@@ -56,9 +59,19 @@ string PLogger::getLogFileName()
     return oss.str();
 }
 
-void PLogger::writeLog(int lv, const char* funcName, int line, const char* str)
+void PLogger::checkDir(string path)
 {
-    string filepath = m_FileName + m_FileFormat;
+    if(mkdir(path.c_str(), 0750) == -1 && EEXIST != errno)
+    {
+        cerr << "fail to create logs folder, plz make logs folder" << endl;
+        exit(0);
+    }
+}
+
+void PLogger::writeLog(int lv, const char* funcName, int line, const char* str, ...)
+{
+    string filepath = __PATH__+m_FileName + m_FileFormat;
+    checkDir(__PATH__);
     ofstream fout(filepath, std::ios::app);
     string timeStamp = getTimestamp();
 
@@ -68,6 +81,7 @@ void PLogger::writeLog(int lv, const char* funcName, int line, const char* str)
         return;
     }
 
+    char* buf = NULL;
     char level[MAX_LENGTH];
     level[0] = '\0';
     switch (lv)
@@ -78,12 +92,29 @@ void PLogger::writeLog(int lv, const char* funcName, int line, const char* str)
     case(LOG_LEVEL_TRACE): strncat(level, "[TRACE]", MAX_LENGTH-1); break;
     }
 
-    fout<<level<<" "<<timeStamp.c_str()<<" "<<"["<<funcName<<":"<<line<<"] : "<<str<<endl;
+    buf = (char*)malloc(sizeof(char) * MAX_BUF_SIZE);
 
-    if (this->logLevel >= lv)
+    if (buf == NULL)
     {
-        cout<<level<<" "<<timeStamp.c_str()<<" "<<"["<<funcName<<":"<<line<<"] : "<<str<<endl;
+        cerr << "Error code on fail to open file" << endl;
+        return;
     }
+    else
+    {
+        fout <<level<<" "<<timeStamp.c_str()<<" "<<"["<<funcName<<":"<<line<<"] : ";
+        va_list ap;
+        va_start(ap, str);
+        vsnprintf(buf, MAX_BUF_SIZE-1, str, ap);
+        fout << buf << endl;
+        va_end(ap);
+        if (this->logLevel >= lv)
+        {
+            cout << level << " " << timeStamp.c_str() << " " << "[" << funcName << ":" << line << "] : " << buf<<endl;
+        }
+        free(buf);
+    }
+
+
 
     fout.close();
     splitFile();
