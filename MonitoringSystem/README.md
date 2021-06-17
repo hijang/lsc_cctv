@@ -5,7 +5,7 @@ For CCTV Monitoring System in Windows.
 
 #### 1. Download and install libaries
 - [OpenCV v4.5.1](https://sourceforge.net/projects/opencvlibrary/files/4.5.1/opencv-4.5.1-vc14_vc15.exe/download)
-- [Win64 OpenSSL v1.1.1k](http://slproweb.com/download/Win64OpenSSL-1_1_1k.exe)
+- [Win64 OpenSSL v1.1.1k](http://slproweb.com/download)
 
 #### 2. Setting environment variables
 1. Search and select System (Control Panel)
