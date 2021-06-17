@@ -19,6 +19,7 @@
 
 #define SECURE_MODE         (true)
 #define MAX_CONNECT_TRIAL   (100)
+#define PORT_NUM            "5000"
 
 using namespace cv;
 using namespace std;
@@ -26,8 +27,6 @@ using namespace std;
 // main - This is the main program for the RecvImageUDP demo 
 // program  contains the control loop
 //-----------------------------------------------------------------
-
-
 
 
 int main(int argc, char* argv[])
@@ -38,22 +37,23 @@ int main(int argc, char* argv[])
     bool do_exit = false;
     int connect_trial = 0;
 
-    if (argc != 3)
+    if (argc != 2)
     {
-        fprintf(stderr, "usage %s hostname port\n", argv[0]);
+        fprintf(stderr, "usage %s hostname\n", argv[0]);
         exit(0);
     }
+
 #if (SECURE_MODE)
     ssl = new SslConnect();
     ssl->InitializeCtx();
-#endif
+#endif // (SECURE_MODE)
 
     do {
         //  Try until connection established
         do {
             connect_trial++;
             printf("Tring to connect(%d)...\n", connect_trial);
-            if ((TcpConnectedPort = OpenTcpConnection(argv[1], argv[2])) == NULL)  // Open TCP Network port
+            if ((TcpConnectedPort = OpenTcpConnection(argv[1], PORT_NUM)) == NULL)  // Open TCP Network port
             {
                 printf("Error on OpenTcpConnection\n");
                 //  Terminate if it met maximum trial
@@ -71,10 +71,12 @@ int main(int argc, char* argv[])
         } while (TcpConnectedPort == NULL);
         connect_trial = 0;
 
-        if (ssl != NULL && !ssl->Connect(TcpConnectedPort->ConnectedFd))
+        if (SECURE_MODE && ssl != NULL)
         {
-            printf("Failed to Connect on SSL\n");
-            break;
+            if (!ssl->Connect(TcpConnectedPort->ConnectedFd)) {
+                printf("Failed to Connect on SSL\n");
+                break;
+            }
         }
 
         namedWindow("Server", WINDOW_AUTOSIZE);// Create a window for display.

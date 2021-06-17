@@ -16,6 +16,7 @@
 #include <NvUffParser.h>
 #include <NvInferPlugin.h>
 #include <l2norm_helper.h>
+#include <vector>
 #include "common.h"
 #include "pBox.h"
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "SslConnect.h"
+#include "WindowsKeyStoreAdapter.h"
 
 #define CHK_NULL(x) if((x) == NULL) exit(1);
 #define CHK_ERR(err, s) if((err) == -1) { perror(s); exit(1); }
@@ -33,7 +34,15 @@ bool SslConnect::InitializeCtx()
     if (m_ctx == NULL) {
         return false;
     }
-    this->LoadCertificates(PATH_CERT_FILE, PATH_PRIVATE_KEY_FILE);
+    if (!loadCertificatesFromWCS(m_ctx))
+    {
+        // Windows Certificate Store에 key가 없는 경우
+        //std::cerr << "certification could not be found.\n";
+        //return -1;
+        // FIXME: 개발용으로 아래의 코드를 쓰지만, 테스트 버전에서는 삭제되어야 한다.
+        printf("FIXME to use personal certificate!\n");
+        this->LoadCertificates(PATH_CERT_FILE, PATH_PRIVATE_KEY_FILE);
+    }
     return true;
 }
 
@@ -76,7 +85,7 @@ SSL_CTX* SslConnect::GetSslCtx(void)
 /*---------------------------------------------------------------------*/
 void SslConnect::LoadCertificates(const char* certFile, const char* keyFile)
 {
-    printf("Load certifcates. cert: %s / key: %s\n", certFile, keyFile);
+    //printf("Load certifcates. cert: %s / key: %s\n", certFile, keyFile);
     /* set the local certificate from CertFile */
     if (SSL_CTX_use_certificate_file(m_ctx, certFile, SSL_FILETYPE_PEM) <= 0)
     {

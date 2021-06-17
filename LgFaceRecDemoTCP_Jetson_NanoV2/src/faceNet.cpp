@@ -1,7 +1,14 @@
 #include "faceNet.h"
 #include "accessHistory.h"
+#include "cctvCrypto.h"
 
 int FaceNetClassifier::m_classCount = 0;
+
+void clearInputBuffer(void)
+{
+    while (getchar() != '\n');
+    return;
+}
 
 FaceNetClassifier::FaceNetClassifier
 (Logger gLogger, DataType dtype, const string uffFile, const string engineFile, int batchSize, bool serializeEngine,
@@ -235,9 +242,9 @@ void FaceNetClassifier::featureMatching(cv::Mat &image) {
            record.insertToMySet(m_knownFaces[winner].className.c_str());
         }
         else if (minDistance > m_knownPersonThresh || winner == -1){
-            //cv::putText(image, "New Person", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
+            //cv::putText(image, "Unauthorized", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
             //        cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4 ,  cv::Scalar(0,0,255,255), 1);
-           cv::putText(image, "New Person", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
+           cv::putText(image, "Unauthorized", cv::Point(m_croppedFaces[i].y1+2, m_croppedFaces[i].x2-3),
                     cv::FONT_HERSHEY_DUPLEX, 0.1 + 2*fontScaler*4 ,  cv::Scalar(0,0,255,255), 1);
 
         }
@@ -249,13 +256,21 @@ void FaceNetClassifier::addNewFace(cv::Mat &image, std::vector<struct Bbox> outp
     std::cout << "Adding new person...\nPlease make sure there is only one face in the current frame.\n"
               << "What's your name? ";
     string newName;
+    clearInputBuffer();
     std::cin >> newName;
     std::cout << "Hi " << newName << ", you will be added to the database.\n";
     forwardAddFace(image, outputBbox, newName);
     string filePath = "../imgs/";
     filePath.append(newName);
     filePath.append(".jpg");
-    cv::imwrite(filePath, image);
+
+    std::vector<uchar> buff;
+    int init_values[2] = { cv::IMWRITE_JPEG_QUALITY,80 };
+    std::vector<int> param (&init_values[0], &init_values[0]+2);
+    cv::imencode(".jpg", image, buff, param);
+
+    if (!do_encrypt_buf_to_file(buff, newName))
+        std::cout << "Fail to save new image\n" << std::endl;
 }
 
 void FaceNetClassifier::resetVariables() {
