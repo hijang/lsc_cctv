@@ -17,6 +17,7 @@ List of final deliverables of the Tartan project
 - [Design]()
 - [Threat List]()
 - [Risk Assessment]()
+- [Security Requirement&Mitigation]()
 - [Test Cases]()
 - [Test Results]()
 - [Phase#1 Presentation]()
