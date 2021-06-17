@@ -14,6 +14,7 @@ List of final deliverables of the Tartan project
 
 ## Documents
 - [System Requirement]()
+- [Security Asset]()
 - [Design]()
 - [Threat List]()
 - [Risk Assessment]()
