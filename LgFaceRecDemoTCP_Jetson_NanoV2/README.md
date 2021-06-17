@@ -5,30 +5,39 @@ CCTV is a server that transmits the image recognized from the camera to the moni
 
 ## Build and run in foreground.
 ### 1. Create account cctv execution.
-**FILL ME!!!**
 ```bash
-????
+$ sudo adduser cctv
+...
+$ sudo adduser manager
+...
 ```
-### 2. Download source code into the account path.
+### 2. Add "cctv" account to sudoers group
+### 3. Log in with "cctv" account
+### 4. Download source code into the account path.
 ```bash
 $ cd ~/work
 $ git clone https://github.com/hijang/lsc_cctv.git
 ```
-
-### 3. Dependencies
+### 5. Dependencies
 - Dependencies of the Tartan project as below is needed
     ```
         cuda 10.2 + cudnn 8.0 
         TensorRT 7.x
         OpenCV 4.1.1
         TensorFlow r1.14 (for Python to convert model from .pb to .uff)
+        keyutils 1.5.9
+        glib v2.56.4
+        openssl 1.1.1
     ```
 - Install openssl library
 ```bash
-$ apt install libssl-dev
+$ sudo apt install libssl-dev
 ```
-
-### 4. Build
+- Install glib library
+```bash
+$ sudo apt-get install libglib2.0-*
+```
+### 6. Build
 1. Go to the source code and make a directory to build.
 ```bash
 $ cd ~/work/lsc_cctv/LgFaceRecDemoTCP_Jetson_NanoV2
@@ -39,8 +48,13 @@ $ mkdir build
 $ cmake ..
 $ make -j 4
 ```
-
-### 5. Register keys and certificates
+### 7. Apply ACLs
+1. Go to the source code and make a directory to build.
+```bash
+$ cd ~/work/lsc_cctv/LgFaceRecDemoTCP_Jetson_NanoV2
+$ sudo ./acl.sh
+```
+### 8. Register keys and certificates
 - For security, register keys for SSL connection and file encryption.
 - The keys for file encryption can be modified arbitrarily by edit fk.blob and fnk.blob.
 - **Note that, the keys and certificates for SSL connections should not be changed.**
@@ -51,6 +65,7 @@ $ make -j 4
 $ cd ~/work/lsc_cctv/keys
 $ ./register_server_key.sh
 ```
+### 9. Remove "cctv" account from sudoers group
 
 ## Run in background using system daemon
 CCTV service can be run in background using system daemon, which make the system executed automatically after the device is boot up. Before you set up, please make sure the cctv binary can execute without error.
