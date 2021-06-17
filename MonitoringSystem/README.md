@@ -10,8 +10,8 @@ For CCTV Monitoring System in Windows.
 #### 2. Setting environment variables
 1. Search and select System (Control Panel)
 2. Click on the Advanced system settings link and then click Environment Variables. Under the section System Variables, click New.
-3. Add 2 System Variable `OPENCV_DIR`, `OPENSSL_DIR` as below (The path can be different for installed location)<br>![set_environment_variable.png](./docs/set_environment_var.png)
-4. Under the section System Variables, select `Path` and click Edit add Add `%OPENCV_DIR%\bin` and `%OPENSSL_DIR%\bin`<br>![set_environment_variable.png](./docs/set_path.PNG)
+3. Add 2 System Variable `OPENCV_DIR`, `OPENSSL_DIR` as below (The path can be different for installed location)<br><img src="./docs/set_environment_var.png" alt="drawing" width="400"/>
+4. Under the section System Variables, select `Path` and click Edit add Add `%OPENCV_DIR%\bin` and `%OPENSSL_DIR%\bin`<br><img src="./docs/set_path.PNG" alt="drawing" width="400"/>
 
 
 ## Build
@@ -35,11 +35,11 @@ Client key is needed for secure connection with CCTV.
 
 1. Run `x64 Native Tools Command Prompt for VS 2019` by selecting in windows menu.
    (window Startup menu > Visual Studio 2019 > x64 Native Tools Command Prompt for VS 2019)
-2. Run command `certmgr.exe`<br>![certmgr_0](./docs/certmgr_0.png)
-3. Select `Import` and choose the client certificate `./Certificate/client.pfx`. (Note the file type is `*.pfx`) then choose `Next`<br>![certmgr_0](./docs/certmgr_2.PNG)
-4. Leave blank in password and ensure the 2nd option - enable to export is checked. Then choose `Next` <br>![certmgr_0](./docs/certmgr_3.PNG)
-5. Confirm the certificate is saved for personal then choose `Next`<br>![certmgr_0](./docs/certmgr_4.PNG)
-6. Ensure the certificate `4tential host PC` is added in the list successfully.<br>![certmgr_0](./docs/certmgr_5.png)
+2. Run command `certmgr.exe`<br><img src="./docs/certmgr_0.png" alt="drawing" width="400"/>
+3. Select `Import` and choose the client certificate `./Certificate/client.pfx`. (Note the file type is `*.pfx`) then choose `Next`<br><img src="./docs/certmgr_2.PNG" alt="drawing" width="400"/>
+4. Leave blank in password and ensure the 2nd option - enable to export is checked. Then choose `Next` <br><img src="./docs/certmgr_3.PNG" alt="drawing" width="400"/>
+5. Confirm the certificate is saved for personal then choose `Next`<br><img src="./docs/certmgr_4.PNG" alt="drawing" width="400"/>
+6. Ensure the certificate `4tential host PC` is added in the list successfully.<br><img src="./docs/certmgr_5.png" alt="drawing" width="400"/>
    
 
 ## Run
@@ -48,4 +48,4 @@ Client key is needed for secure connection with CCTV.
 ```
 D:\work\lsc_cctv\x64\Debug>MonitoringSystem.exe 192.168.0.166
 ```
-![run_app](./docs/run_app.PNG)
+<img src="./docs/run_app.PNG" alt="drawing" width="800"/>
