@@ -15,16 +15,16 @@ List of final deliverables of the Tartan project
 - [Monitoring System](./MonitoringSystem/README.md) - Monitoring System client
 
 ## Documents
-- [System Requirement]()
-- [Security Asset]()
-- [Design]()
-- [Threat List]()
-- [Risk Assessment]()
-- [Security Requirement&Mitigation]()
-- [Test Cases]()
-- [Test Results]()
-- [Result Of Static Analysis]()
-- [Phase#1 Presentation]()
+- [System Requirement](./documents/Software%20Requirements.pdf)
+- [Security Asset](./documents/Security%20Asset%20Identification.pdf)
+- [Design](./documents/Software%20Design.pdf)
+- [Threat List](./documents/CCTV_ThreatList_STRIDE_and_PnG.xlsx)
+- [Risk Assessment](./documents/Risk%20Assessment.xlsx)
+- [Security Requirement&Mitigation](./documents/Security%20Requirement_Mitigation_TCs.xlsx)
+- [Test Cases](./documents/Test%20cases.pdf)
+- [Test Results](./documents/Test%20Case%20results%20report.xlsx)
+- [Result Of Static Analysis](./documents/static-analysis%20report.xlsx)
+- [Phase#1 Presentation](./documents/Team4%20phase1%20presentation.pdf)
 
 ## Security Response Contact
 Please mail to bluing87@gmail.com, or report us using [new issue](https://github.com/hijang/lsc_cctv/issues/new)
