@@ -32,9 +32,9 @@ Client key is needed for secure connection with CCTV.
 
 1. Run `x64 Native Tools Command Prompt for VS 2019` by selecting in windows menu.
 2. Run command `certmgr.exe`<br>![certmgr_0](./docs/certmgr_0.png)
-3. Select `Import` and choose the client certificate `./Certificate/client.pfx`. (Note the file type is `*.pfx`) then choose `Next`<br>![certmgr_0](./docs/certmgr_2.png)
-4. Leave blank in password and ensure the 2nd option - enable to export is checked. Then choose `Next` <br>![certmgr_0](./docs/certmgr_3.png)
-5. Confirm the certificate is saved for personal then choose `Next`<br>![certmgr_0](./docs/certmgr_4.png)
+3. Select `Import` and choose the client certificate `./Certificate/client.pfx`. (Note the file type is `*.pfx`) then choose `Next`<br>![certmgr_0](./docs/certmgr_2.PNG)
+4. Leave blank in password and ensure the 2nd option - enable to export is checked. Then choose `Next` <br>![certmgr_0](./docs/certmgr_3.PNG)
+5. Confirm the certificate is saved for personal then choose `Next`<br>![certmgr_0](./docs/certmgr_4.PNG)
 6. Ensure the certificate `4tential host PC` is added in the list successfully.<br>![certmgr_0](./docs/certmgr_5.png)
    
 
@@ -44,4 +44,4 @@ Client key is needed for secure connection with CCTV.
 ```
 D:\work\lsc_cctv\x64\Debug>MonitoringSystem.exe 192.168.0.166
 ```
-![run_app](./docs/run_app.png)
+![run_app](./docs/run_app.PNG)
