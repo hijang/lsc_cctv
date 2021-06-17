@@ -45,10 +45,10 @@ $ make -j 4
 - The keys for file encryption can be modified arbitrarily by edit fk.blob and fnk.blob.
 - **Note that, the keys and certificates for SSL connections should not be changed.**
 #### 
-1. Go to `./Certificates` dir
+1. Go to `./keys` dir
 2. Run script to register keys.
 ```bash
-$ cd ~/work/lsc_cctv/Certificates
+$ cd ~/work/lsc_cctv/keys
 $ ./register_server_key.sh
 ```
 
