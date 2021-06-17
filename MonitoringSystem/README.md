@@ -31,6 +31,8 @@ D:\work\lsc_cctv>msbuild MonitoringSystem.sln
 ## Register key pair for client.
 Client key is needed for secure connection with CCTV.
 
+> :warning: **Certificates must be handled securely to avoid leaks. The certificate in the repository is for project convenience. This certificate is assumed not to be leaked.**
+
 1. Run `x64 Native Tools Command Prompt for VS 2019` by selecting in windows menu.
    (window Startup menu > Visual Studio 2019 > x64 Native Tools Command Prompt for VS 2019)
 2. Run command `certmgr.exe`<br>![certmgr_0](./docs/certmgr_0.png)
