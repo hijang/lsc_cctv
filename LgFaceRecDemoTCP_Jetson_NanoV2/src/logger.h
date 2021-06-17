@@ -15,10 +15,10 @@
 #define LOG_LEVEL_INFO 40
 #define LOG_LEVEL_TRACE 60
 #define LOG_LEVEL_ALL 100
-#define fatal(str, ...) writeLog(LOG_LEVEL_FATAL,__FUNCTION__, __LINE__, str)
-#define error(str, ...) writeLog(LOG_LEVEL_ERROR,__FUNCTION__, __LINE__, str)
-#define info(str, ...) writeLog(LOG_LEVEL_INFO,__FUNCTION__, __LINE__, str)
-#define trace(str, ...) writeLog(LOG_LEVEL_TRACE,__FUNCTION__, __LINE__, str)
+#define fatal(str, ...) writeLog(LOG_LEVEL_FATAL,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define error(str, ...) writeLog(LOG_LEVEL_ERROR,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define info(str, ...) writeLog(LOG_LEVEL_INFO,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
+#define trace(str, ...) writeLog(LOG_LEVEL_TRACE,__FUNCTION__, __LINE__, str, ##__VA_ARGS__)
 using namespace std;
 class PLogger {
 private:
@@ -30,10 +30,11 @@ private:
     string getLogFileName();
     int32_t fileSize(string filename);
     void splitFile();
+    void checkDir(string path);
 public:
     PLogger();
     PLogger(int level);
-    void writeLog(int level, const char* funcName, int line, const char* str);
+    void writeLog(int level, const char* funcName, int line, const char* str, ...);
 };
 static PLogger logg;
 #endif
