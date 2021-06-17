@@ -21,11 +21,12 @@ List of final deliverables of the Tartan project
 - [Security Requirement&Mitigation]()
 - [Test Cases]()
 - [Test Results]()
+- [Result Of Static Analysis]()
 - [Phase#1 Presentation]()
 
 ## Security Response Contact
 
-xxx@gmail.com
+bluing87@gmail.com
 
 
 ## Contributing
