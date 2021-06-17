@@ -9,8 +9,8 @@ List of final deliverables of the Tartan project
 - [Contributing](#contributing)
 
 ## How to build
-- [CCTV](http://CCTVlink) - CCTV server.
-- [Monitoring System](http://monitoring_system_link) - Monitoring System client.
+- [CCTV](http://CCTVlink) - CCTV server
+- [Monitoring System](https://github.com/hijang/lsc_cctv/blob/master/MonitoringSystem/README.md) - Monitoring System client
 
 ## Documents
 - [System Requirement]()
