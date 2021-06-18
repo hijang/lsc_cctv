@@ -127,3 +127,7 @@ Jun 17 06:14:37 LgFaceRecProject cctv.sh[8833]: [FATAL] Jun/17/2021 06:14:37 [pr
 Jun 17 06:14:37 LgFaceRecProject cctv.sh[8833]: [FATAL] Jun/17/2021 06:14:37 [printLog:23] : there is (1) unauthorized person
 Jun 17 06:14:37 LgFaceRecProject cctv.sh[8833]: [FATAL] Jun/17/2021 06:14:37 [printLog:23] : there is (1) unauthorized person
 ```
+### 4. Setting reset service 
+
+CCTV should be restarted once a day as a policy.
+You need to configure it to restart at a set time using the cron command.
