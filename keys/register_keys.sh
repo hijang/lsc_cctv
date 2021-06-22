@@ -1,5 +1,8 @@
 #!/bin/sh
 # Key and certificate for SSL
+
+cd /home/cctv/work/lsc_cctv/keys
+
 keyctl add user server_crt "`cat server.crt`" @u
 keyctl add user server_key "`cat server.key`" @u
 
