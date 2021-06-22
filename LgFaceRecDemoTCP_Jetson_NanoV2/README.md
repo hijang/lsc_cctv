@@ -91,7 +91,7 @@ WantedBy=multi-user.target
 ```
 2. Make a symblic link for system daemon to execute.
 ```bash
-$ ln /home/cctv/cctv.sh /home/cctv/work/lsc_cctv/cctv.sh
+$ ln -s /home/cctv/work/lsc_cctv/cctv.sh /home/cctv/cctv.sh
 ```
 
 ### 2. Set dependency to camera daemon

@@ -139,7 +139,7 @@ bool SslConnect::loadCertification()
 
     // set local rootca cert
 
-    if(!SSL_CTX_load_verify_locations(m_ctx,"../Certificates/rootca.crt", NULL) || 
+    if(!SSL_CTX_load_verify_locations(m_ctx,"../../keys/rootca.crt", NULL) ||
             !SSL_CTX_set_default_verify_paths(m_ctx)) {
         logg.fatal("Fail to load rootCa crt for verifying client.\n");
         return false;
