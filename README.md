@@ -29,15 +29,16 @@ List of final deliverables of the Tartan project
 - [Phase#1 Presentation](./documents/phase1/Team4%20phase1%20presentation.pdf)
 
 ## Documents for phase 2
-- [Final Report](./documents/phase2/Final%20Report.pdf)
-- [Penetration Test Report](./documents/phase2/submaterials/Penetration%20Test%20Report.pdf)
 - [Security Assessment Report](./documents/phase2/Security%20Assessment%20Report.pdf)
-- [Static Analysis and Exploit Trials](./documents/phase2/submaterials/Static%20Analysis%20and%20Exploit%20Trials.pdf)
-- [Static_analysis-flawfinder-5team](./documents/phase2/submaterials/Static_analysis-flawfinder-5team.xlsx)
+- [Final Report](./documents/phase2/Final%20Report.pdf)
 - Team4 Final Presentation
-- [Team5 Document Review](./documents/phase2/submaterials/Team5%20Document%20Review.pdf)
-- [Testcase Analysis](./documents/phase2/submaterials/Testcase%20Analysis.xlsx)
-- [vuln_demo.mp4](./documents/phase2/vuln_demo.mp4)
+- sub materials
+  - [Penetration Test Report](./documents/phase2/submaterials/Penetration%20Test%20Report.pdf)
+  - [Static Analysis and Exploit Trials](./documents/phase2/submaterials/Static%20Analysis%20and%20Exploit%20Trials.pdf)
+  - [Static_analysis-flawfinder-5team](./documents/phase2/submaterials/Static_analysis-flawfinder-5team.xlsx)
+  - [Team5 Document Review](./documents/phase2/submaterials/Team5%20Document%20Review.pdf)
+  - [Testcase Analysis](./documents/phase2/submaterials/Testcase%20Analysis.xlsx)
+  - [vuln_demo.mp4](./documents/phase2/vuln_demo.mp4)
 
 ## Security Response Contact
 Please mail to bluing87@gmail.com, or report us using [new issue](https://github.com/hijang/lsc_cctv/issues/new)
