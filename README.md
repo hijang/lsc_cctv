@@ -36,10 +36,10 @@ List of final deliverables of the Tartan project
 ### Sub materials
 - [Penetration Test Report](./documents/phase2/submaterials/Penetration%20Test%20Report.pdf)
 - [Report for Static Analysis and Exploit Trials](./documents/phase2/submaterials/Static%20Analysis%20and%20Exploit%20Trials.pdf)
-- [Issue list for Static_analysis-flawfinder-5team](./documents/phase2/submaterials/Static_analysis-flawfinder-5team.xlsx)
-- [Team5 Document Review](./documents/phase2/submaterials/Team5%20Document%20Review.pdf)
+- [Issue List for Static_analysis-flawfinder-5team](./documents/phase2/submaterials/Static_analysis-flawfinder-5team.xlsx)
+- [Team5 Document Review Report](./documents/phase2/submaterials/Team5%20Document%20Review.pdf)
 - [Testcase Analysis Report](./documents/phase2/submaterials/Testcase%20Analysis.xlsx)
-- [vuln_demo.mp4](./documents/phase2/vuln_demo.mp4)
+- [Demo Video : OperationMode Tampering](./documents/phase2/vuln_demo.mp4)
 
 ## Security Response Contact
 Please mail to bluing87@gmail.com, or report us using [new issue](https://github.com/hijang/lsc_cctv/issues/new)
